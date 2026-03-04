@@ -1,0 +1,1 @@
+// responsável por buscar os dados do backend para popular a página home — KPIs, tendência de receita e dados do mapa regional.

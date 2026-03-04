@@ -1,0 +1,1 @@
+// formata qualquer valor para um padrão

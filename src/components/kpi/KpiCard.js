@@ -1,0 +1,1 @@
+//Card individual de KPI

@@ -1,0 +1,1 @@
+//Tendência 6 meses (Chart.js)

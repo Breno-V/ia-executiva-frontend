@@ -1,0 +1,1 @@
+// arquivo com valores fixos do projeto que são usados em vários lugares
