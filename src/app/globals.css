@@ -15,8 +15,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-
     --background: #091113 ;
+    --background-nav: #355668;
     --foreground: #F0F4F5 ;
     --color-primary: #9ACCD9;
     --color-secondary: #236E81;
@@ -30,6 +30,7 @@
 @media (prefers-color-scheme: light){
   :root {
     --background: #F5FDFF;
+    --background-nav: #609cbc;
     --foreground: #0A0E0F;
     --color-primary: #10C8F5;
     --color-secondary: #9EA3C2;
