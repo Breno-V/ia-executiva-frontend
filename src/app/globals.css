@@ -1,5 +1,28 @@
 @import "tailwindcss";
 
+/* Largura da scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Trilho (fundo da scrollbar) */
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+/* Barra em si */
+::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 999px;
+}
+
+/* Hover na barra */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+  cursor: s-resize;
+
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
