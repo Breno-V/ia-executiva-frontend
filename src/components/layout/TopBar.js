@@ -16,10 +16,10 @@ export default function TopBar() {
 
         <div className={styles.logoWrapper}>
           <Image
-            src="/logo-cristalia.png"
+            src="/imagem-azul.jpeg"
             alt="Cristália"
-            width={120}
-            height={40}
+            width={60}
+            height={20}
             priority
           />
         </div>
