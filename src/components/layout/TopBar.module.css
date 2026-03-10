@@ -30,16 +30,14 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 1.5rem;
-  gap: clamp(0.5rem, 2vw, 1.5rem);
+  gap: clamp(4rem, 10vw, 10rem);
 }
 
 .navRight {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 1.5rem;
-  gap: clamp(0.5rem, 2vw, 1.5rem);
+  gap: clamp(4rem, 10vw, 10rem);
 }
 
 .navLink {
@@ -83,7 +81,7 @@
 
   .navLeft,
   .navRight {
-    gap: 0.3rem;
+    gap: 3rem;
   }
 
   .navLink {
