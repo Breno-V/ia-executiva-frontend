@@ -34,3 +34,11 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
+
+.tendenciaContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: start;
+}

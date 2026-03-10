@@ -3,10 +3,14 @@ import KpiCard from "@/components/kpi/KpiCard";
 import TopBar from "@/components/layout/TopBar";
 import RegionalMap from "@/components/map/RegionalMap";
 import IaSection from "@/components/ui/AiSection";
+import RevenueLineChart from "@/components/charts/RevenueLineChart";
+import ChannelPieChart from "@/components/charts/ChannelPizzaChart";
+import Footer from "@/components/layout/Footer";
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
+    <>
     <main className={styles.main}>
       <TopBar />
       <section id="kpis" className={styles.section}>
@@ -21,6 +25,10 @@ export default function Home() {
       </section>
       <section id="tendencia" className={styles.section}>
         <SectionTitle title="Tendência da Receita (Últimos 6 meses)" />
+        <div className={styles.tendenciaContainer}>
+          <ChannelPieChart />
+          <RevenueLineChart />
+        </div>
       </section>
       <section id="mapa" className={styles.section}>
         <SectionTitle title="Mapa de Performance Regional" />
@@ -28,5 +36,7 @@ export default function Home() {
       </section>
       <IaSection />
     </main>
+    <Footer />
+  </>
   );
 }
