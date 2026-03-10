@@ -18,8 +18,8 @@ export default function TopBar() {
           <Image
             src="/imagem-azul.jpeg"
             alt="Cristália"
-            width={60}
-            height={20}
+            width={40}
+            height={14}
             priority
           />
         </div>

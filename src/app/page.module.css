@@ -1,13 +1,18 @@
 .main {
   min-height: 100vh;
   background: var(--background);
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .section {
   max-width: 80rem;
   margin: 0 auto;
   padding: 4rem 2rem;
-  max-height: 80rem;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .kpiGrid {
@@ -18,7 +23,7 @@
 
 .kpiContainer {
   background-color: #25242b75;
-  padding: 5rem;
+  padding: 2rem;
   border-radius: 2rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -41,4 +46,30 @@
   gap: 1.5rem;
   width: 100%;
   align-items: start;
+}
+
+/*MEDIA QUERIES*/
+
+@media (max-width: 600px) {
+  .tendenciaContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .alertGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .section {
+    padding: 2rem 0.75rem;
+  }
 }
