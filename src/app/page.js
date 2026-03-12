@@ -1,3 +1,10 @@
+"use client"
+
+import { useEffect, useState } from "react";
+import { useHome } from "@/hooks/useHome";
+import { useRouter } from "next/navigation";
+import { isAuthenticated } from "@/libs/api.js";
+import {formatCurrency,} from "@/libs/formatters.js";
 import SectionTitle from "@/components/ui/SectionTitle";
 import KpiCard from "@/components/kpi/KpiCard";
 import TopBar from "@/components/layout/TopBar";
@@ -9,6 +16,22 @@ import Footer from "@/components/layout/Footer";
 import styles from "./page.module.css";
 
 export default function Home() {
+  const router = useRouter()
+    const [mounted, setMounted] = useState(false);
+  const { kpiDaily, kpisMonthly, alerts, loading, error } = useHome();
+
+  useEffect(() => {
+    setMounted(true);
+    if (!isAuthenticated()) {
+      router.push("/login");
+    }
+  }, [router]);
+
+  if (!mounted) return null;
+  if (!isAuthenticated()) return null;
+  if (loading) return <p style={{ textAlign: "center", marginTop: "4rem" }}>Carregando...</p>;
+  if (error) return <p style={{ textAlign: "center", marginTop: "4rem", color: "red" }}>Erro: {error}</p>;
+
   return (
     <>
     <main className={styles.main}>
@@ -17,9 +40,9 @@ export default function Home() {
         <SectionTitle title="KPI's Principais" />
         <div className={styles.kpiContainer}>
           <div className={styles.kpiGrid}>
-            <KpiCard title="Receita" value="R$ 4.850.000" />
-            <KpiCard title="Despesas" value="R$ 3.920.000" />
-            <KpiCard title="Resultado Líquido" value="R$ 930.000" fullWidth />
+            <KpiCard title="Receita" value={formatCurrency(kpiDaily?.revenue)} />
+            <KpiCard title="Despesas" value={formatCurrency(kpiDaily?.expenses)} />
+            <KpiCard title="Resultado Líquido" value={formatCurrency(kpiDaily?.net)} fullWidth />
           </div>
         </div>
       </section>
@@ -27,14 +50,14 @@ export default function Home() {
         <SectionTitle title="Tendência da Receita (Últimos 6 meses)" />
         <div className={styles.tendenciaContainer}>
           <ChannelPieChart />
-          <RevenueLineChart />
+          <RevenueLineChart kpisMonthly={kpisMonthly}/>
         </div>
       </section>
       <section id="mapa" className={styles.section}>
         <SectionTitle title="Mapa de Performance Regional" />
         <RegionalMap />
       </section>
-      <IaSection />
+      <IaSection alerts={alerts}/>
     </main>
     <Footer />
   </>
