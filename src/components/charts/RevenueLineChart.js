@@ -25,22 +25,9 @@ ChartJS.register(
   Filler
 );
 
+const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+
 //dados a serem preenchidos depois no backend
-const data = {
-  labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
-  datasets: [
-    {
-      label: "Receita (R$ Milhões)",
-      data: [3.8, 4.1, 4.3, 4.6, 4.9, 4.85],
-      borderColor: "var(--color-accent)",
-      backgroundColor: "rgba(46, 183, 217, 0.1)",
-      pointBackgroundColor: "var(--color-accent)",
-      pointRadius: 5,
-      tension: 0.4,
-      fill: true,
-    },
-  ],
-};
 
 const options = {
   responsive: true,
@@ -53,7 +40,7 @@ const options = {
     },
     tooltip: {
       callbacks: {
-        label: (context) => ` R$ ${context.parsed.y}M`,
+        label: (context) => ` R$ ${context.parsed.y.toFixed(2)}M`,
       },
     },
   },
@@ -69,7 +56,26 @@ const options = {
   },
 };
 
-export default function RevenueLineChart() {
+export default function RevenueLineChart({ kpisMonthly = [] }) {
+  const labels = kpisMonthly.map((k) => MESES[k.month - 1]);
+  const values = kpisMonthly.map((k) => (k.revenue / 1_000_000));
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Receita (R$ Milhões)",
+        data: values,
+        borderColor: "#2EB7D9",
+        backgroundColor: "rgba(46, 183, 217, 0.1)",
+        pointBackgroundColor: "#2EB7D9",
+        pointRadius: 5,
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  };
+  
   return (
     <div className={styles.wrapper}>
       <Line data={data} options={options} />
