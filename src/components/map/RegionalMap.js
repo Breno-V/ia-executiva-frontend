@@ -3,17 +3,36 @@
 
 import { useEffect, useState } from "react";
 import styles from "./RegionalMap.module.css";
-
-const markers = [
-  { city: "São Paulo", lat: -23.55, lng: -46.63, revenue: "R$ 1.2M" },
-  { city: "Campinas", lat: -22.9, lng: -47.06, revenue: "R$ 850k" },
-  { city: "Belo Horizonte", lat: -19.92, lng: -43.94, revenue: "R$ 620k" },
-];
+import { getRevenueByRegion } from "@/libs/api";
+import { formatCurrency } from "@/libs/formatters";
+import { REGION_COORDS } from "@/libs/constants";
 
 export default function RegionalMap() {
   const [MapComponents, setMapComponents] = useState(null);
+  const [markers, setMarkers] = useState([]);
+
 
   useEffect(() => {
+    // Busca dados do backend
+    getRevenueByRegion().then((regions) => {
+      const mapped = regions
+        .filter((r) => REGION_COORDS[r.region])
+        .map((r) => ({
+          city: REGION_COORDS[r.region].city,
+          lat: REGION_COORDS[r.region].lat,
+          lng: REGION_COORDS[r.region].lng,
+          region: r.region,
+          revenue: formatCurrency(r.total),
+        }));
+      setMarkers(mapped);
+    }).catch(() => {
+      // Fallback com dados estáticos se o backend falhar
+      setMarkers([
+        { city: "São Paulo", lat: -23.55, lng: -46.63, region: "Sudeste", revenue: "—" },
+        { city: "Curitiba", lat: -25.42, lng: -49.27, region: "Sul", revenue: "—" },
+      ]);
+    });
+
     import("leaflet").then((L) => {
       delete L.Icon.Default.prototype._getIconUrl;
       L.Icon.Default.mergeOptions({
