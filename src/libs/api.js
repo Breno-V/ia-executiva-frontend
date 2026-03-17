@@ -69,6 +69,11 @@ export async function getRevenueByChannel() {
   return response.data;
 }
 
+export async function getRevenueByRegion() {
+  const response = await api.get("/dashboard/kpis/regional");
+  return response.data;
+}
+
 // ─── Insights ───────────────────────────────────────────
 export async function getInsights() {
   const response = await api.get("/insights/");
