@@ -1,17 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useAI } from "@/hooks/useAI";
 import Button from "@/components/ui/Button";
 import AlertCard from "@/components/alerts/AlertCard";
 import SectionTitle from "@/components/ui/SectionTitle";
 import styles from "./AiSection.module.css";
 
 export default function IaSection({ alerts = [] }) {
-  const [summary, setSummary] = useState("");
-
-  function handleGenerate() {
-    setSummary("Analisando dados...");
-  }
+  const { summary, loading, error, generateSummary } = useAI();
 
   // Mapeia severidade do backend para o level do AlertCard
   const severityMap = { high: "high", medium: "medium", low: "low" };
@@ -41,8 +38,17 @@ export default function IaSection({ alerts = [] }) {
           <p className={styles.summary}>{summary}</p>
         </div>
       )}
+      {error && (
+        <p style={{ color: "var(--color-alert-high)", textAlign: "center" }}>
+          {error}
+        </p>
+      )}
       <div className={styles.buttonWrapper}>
-        <Button label="Gerar Resumo Executivo" onClick={handleGenerate} />
+        <Button
+          label={loading ? "Gerando..." : "Gerar Resumo Executivo"}
+          onClick={generateSummary}
+          disabled={loading}
+        />
       </div>
     </section>
   );
