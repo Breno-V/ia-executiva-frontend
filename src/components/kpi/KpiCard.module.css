@@ -5,6 +5,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .fullWidth {
@@ -16,10 +22,39 @@
   font-weight: 500;
   color: var(--foreground);
   opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.valueRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .value {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--foreground);
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+}
+
+.badgeUp {
+  background: rgba(148, 213, 120, 0.15);
+  color: var(--color-alert-low);
+  border: 1px solid rgba(148, 213, 120, 0.3);
+}
+
+.badgeDown {
+  background: rgba(228, 104, 104, 0.15);
+  color: var(--color-alert-high);
+  border: 1px solid rgba(228, 104, 104, 0.3);
 }
