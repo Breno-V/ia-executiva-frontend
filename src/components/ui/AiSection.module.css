@@ -10,19 +10,20 @@
 .alertGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .summaryWrapper {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(46, 183, 217, 0.04);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(46, 183, 217, 0.15);
+  border-top-color: rgba(46, 183, 217, 0.25);
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 4px 24px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(46, 183, 217, 0.08);
 }
 
 .summary {
@@ -37,12 +38,14 @@
   justify-content: center;
 }
 
+@media (max-width: 768px) {
+  .alertGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 400px) {
   .section {
     padding: 2rem 0.75rem;
-  }
-
-  .alertGrid {
-    grid-template-columns: 1fr;
   }
 }
