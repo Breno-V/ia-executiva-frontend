@@ -14,3 +14,5 @@ export const REGION_COORDS = {
   "Norte":   { lat: -3.10,  lng: -60.02, city: "Manaus" },
   "Centro-Oeste": { lat: -15.77, lng: -47.92, city: "Brasília" },
 };
+
+export const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
