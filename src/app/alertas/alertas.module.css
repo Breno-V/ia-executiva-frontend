@@ -1,0 +1,330 @@
+.wrapper {
+  padding: 2rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  padding: 0.25rem;
+  width: fit-content;
+}
+
+.tab {
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: transparent;
+  color: var(--foreground);
+  opacity: 0.5;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  opacity: 0.8;
+}
+
+.activeTab {
+  opacity: 1;
+  background: rgba(46, 183, 217, 0.1);
+  color: var(--color-accent);
+}
+
+.alertsSection {
+  min-height: 300px;
+}
+
+.alertGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.chatSection {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.chatHeader {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chatTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.chatSub {
+  font-size: 0.8rem;
+  color: var(--foreground);
+  opacity: 0.4;
+  margin: 0.25rem 0 0;
+}
+
+.chatMessages {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 420px;
+}
+
+.chatEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 100%;
+  min-height: 200px;
+  color: var(--foreground);
+  opacity: 0.3;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.message {
+  display: flex;
+}
+
+.userMsg {
+  justify-content: flex-end;
+}
+
+.assistantMsg {
+  justify-content: flex-start;
+}
+
+.msgBubble {
+  max-width: 75%;
+  padding: 0.875rem 1.25rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.userMsg .msgBubble {
+  background: var(--color-accent);
+  color: #fff;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.assistantMsg .msgBubble {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--foreground);
+  border-bottom-left-radius: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.typing {
+  display: flex;
+  gap: 4px;
+  padding: 0.25rem 0;
+}
+
+.typing span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--foreground);
+  opacity: 0.3;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  0%, 60%, 100% { transform: scale(0.6); opacity: 0.3; }
+  30% { transform: scale(1); opacity: 0.8; }
+}
+
+.chatInput {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2rem;
+  padding: 0.7rem 1.25rem;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+}
+
+.input::placeholder {
+  opacity: 0.3;
+}
+
+.sendBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.sendBtn:hover {
+  opacity: 0.85;
+}
+
+.sendBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--foreground);
+  opacity: 0.4;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 3rem 1rem 2rem;
+}
+
+.emptyHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  max-width: 480px;
+}
+
+.emptyTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.emptySub {
+  font-size: 0.875rem;
+  color: var(--foreground);
+  opacity: 0.45;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.monitoringGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.monitoringCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.monitoringCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.monitoringIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.75rem;
+  background: rgba(46, 183, 217, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.monitoringTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.monitoringDesc {
+  font-size: 0.8rem;
+  color: var(--foreground);
+  opacity: 0.5;
+  line-height: 1.65;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 1rem;
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1;
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .alertGrid, .monitoringGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .msgBubble {
+    max-width: 90%;
+  }
+
+  .emptyState {
+    padding: 2rem 0.5rem;
+    gap: 2rem;
+  }
+}
