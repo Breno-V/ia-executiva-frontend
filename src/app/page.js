@@ -1,13 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useHome } from "@/hooks/useHome";
-import { useRouter } from "next/navigation";
-import { isAuthenticated } from "@/libs/api.js";
 import { formatCurrency } from "@/libs/formatters.js";
+import { getLenis } from "@/libs/LenisContext";
+import AuthLayout from "@/components/layout/AuthLayout";
 import SectionTitle from "@/components/ui/SectionTitle";
 import KpiCard from "@/components/kpi/KpiCard";
-import TopBar from "@/components/layout/TopBar";
 import RegionalMap from "@/components/map/RegionalMap";
 import IaSection from "@/components/ui/AiSection";
 import RevenueLineChart from "@/components/charts/RevenueLineChart";
@@ -17,24 +16,29 @@ import SkeletonLoader from "@/components/ui/SkeletonLoader";
 import styles from "./page.module.css";
 
 export default function Home() {
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const { kpiDaily, kpisMonthly, alerts, loading, error } = useHome();
 
-  useEffect(() => {
-    setMounted(true);
-    if (!isAuthenticated()) {
-      router.push("/login");
+  const scrollTo = useCallback((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(top, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top, behavior: "smooth" });
     }
-  }, [router]);
-
-  if (!mounted) return null;
-  if (!isAuthenticated()) return null;
+  }, []);
 
   return (
-    <>
-      <main className={styles.main}>
-        <TopBar />
+    <AuthLayout title="Dashboard Executivo">
+      <div className={styles.main}>
+        <div className={styles.sectionNav}>
+          <button onClick={() => scrollTo("kpis")} className={styles.sectionLink}>KPIs</button>
+          <button onClick={() => scrollTo("tendencia")} className={styles.sectionLink}>Tendência</button>
+          <button onClick={() => scrollTo("mapa")} className={styles.sectionLink}>Mapa</button>
+          <button onClick={() => scrollTo("ia")} className={styles.sectionLink}>Análise IA</button>
+        </div>
 
         {loading ? (
           <SkeletonLoader />
@@ -75,8 +79,8 @@ export default function Home() {
             <IaSection alerts={alerts} />
           </>
         )}
-      </main>
+      </div>
       <Footer />
-    </>
+    </AuthLayout>
   );
 }

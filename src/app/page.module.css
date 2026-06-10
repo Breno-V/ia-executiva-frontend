@@ -6,6 +6,38 @@
   box-sizing: border-box;
 }
 
+.sectionNav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem 0;
+  flex-wrap: wrap;
+}
+
+.sectionLink {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+  opacity: 0.5;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.sectionLink:hover {
+  opacity: 1;
+  color: var(--color-accent);
+  border-color: rgba(46, 183, 217, 0.3);
+  background: rgba(46, 183, 217, 0.06);
+}
+
 .section {
   max-width: 80rem;
   margin: 0 auto;
