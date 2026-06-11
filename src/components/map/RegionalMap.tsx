@@ -2,31 +2,32 @@
 
 import { useEffect, useState } from "react";
 import styles from "./RegionalMap.module.css";
-import { getRevenueByRegion } from "@/libs/api";
+import { getRevenueByRegion } from "@/services/api/dashboard";
 import { formatCurrency } from "@/libs/formatters";
 import { REGION_COORDS } from "@/libs/constants";
+import type { RegionRevenue } from "@/types";
+interface MarkerData {
+  city: string;
+  lat: number;
+  lng: number;
+  region: string;
+  revenue: string;
+}
 
-// Ícone SVG customizado — círculo com pulso no tema accent
-const createCustomIcon = (L) =>
+interface MapComponents {
+  MapContainer: React.ComponentType<any>;
+  TileLayer: React.ComponentType<any>;
+  Marker: React.ComponentType<any>;
+  Popup: React.ComponentType<any>;
+}
+
+const createCustomIcon = (L: typeof import("leaflet")) =>
   L.divIcon({
     className: "",
     html: `
       <div style="position:relative;width:32px;height:32px">
-        <div style="
-          position:absolute;inset:0;
-          border-radius:50%;
-          background:rgba(46,183,217,0.15);
-          border:1.5px solid rgba(46,183,217,0.4);
-          animation:pulse 2s ease-out infinite;
-        "></div>
-        <div style="
-          position:absolute;top:50%;left:50%;
-          transform:translate(-50%,-50%);
-          width:12px;height:12px;
-          border-radius:50%;
-          background:#2EB7D9;
-          box-shadow:0 0 8px rgba(46,183,217,0.8);
-        "></div>
+        <div style="position:absolute;inset:0;border-radius:50%;background:rgba(46,183,217,0.15);border:1.5px solid rgba(46,183,217,0.4);animation:pulse 2s ease-out infinite;"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;background:#2EB7D9;box-shadow:0 0 8px rgba(46,183,217,0.8);"></div>
       </div>
     `,
     iconSize: [32, 32],
@@ -35,12 +36,12 @@ const createCustomIcon = (L) =>
   });
 
 export default function RegionalMap() {
-  const [MapComponents, setMapComponents] = useState(null);
-  const [markers, setMarkers] = useState([]);
+  const [MapComponents, setMapComponents] = useState<MapComponents | null>(null);
+  const [markers, setMarkers] = useState<MarkerData[]>([]);
 
   useEffect(() => {
     getRevenueByRegion()
-      .then((regions) => {
+      .then((regions: RegionRevenue[]) => {
         const mapped = regions
           .filter((r) => REGION_COORDS[r.region])
           .map((r) => ({
@@ -60,11 +61,11 @@ export default function RegionalMap() {
       });
 
     import("leaflet").then((L) => {
-      delete L.Icon.Default.prototype._getIconUrl;
+      delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
     });
 
-    import("react-leaflet").then(({ MapContainer, TileLayer, Marker, Popup, CircleMarker }) => {
-      setMapComponents({ MapContainer, TileLayer, Marker, Popup, CircleMarker });
+    import("react-leaflet").then(({ MapContainer, TileLayer, Marker, Popup }) => {
+      setMapComponents({ MapContainer, TileLayer, Marker, Popup });
     });
   }, []);
 
@@ -78,12 +79,8 @@ export default function RegionalMap() {
 
   const { MapContainer, TileLayer, Marker, Popup } = MapComponents;
 
-  // Cria o ícone customizado dentro do render (precisa do L já carregado)
-  let customIcon = null;
-  try {
-    const L = require("leaflet");
-    customIcon = createCustomIcon(L);
-  } catch (_) {}
+  const L = require("leaflet");
+  const customIcon = createCustomIcon(L);
 
   return (
     <div className={styles.wrapper}>
@@ -101,53 +98,20 @@ export default function RegionalMap() {
           color: #F0F4F5 !important;
           backdrop-filter: blur(12px);
         }
-        .leaflet-popup-tip {
-          background: rgba(9, 17, 19, 0.95) !important;
-        }
-        .leaflet-popup-content {
-          margin: 12px 16px !important;
-          font-family: inherit !important;
-        }
-        .leaflet-container {
-          font-family: inherit !important;
-          background: #091113 !important;
-        }
-        .leaflet-control-attribution {
-          background: rgba(9,17,19,0.7) !important;
-          color: rgba(240,244,245,0.3) !important;
-          font-size: 10px !important;
-        }
-        .leaflet-control-attribution a {
-          color: rgba(46,183,217,0.5) !important;
-        }
-        .leaflet-control-zoom a {
-          background: rgba(9,17,19,0.9) !important;
-          color: #9ACCD9 !important;
-          border-color: rgba(255,255,255,0.1) !important;
-        }
-        .leaflet-control-zoom a:hover {
-          background: rgba(46,183,217,0.15) !important;
-        }
+        .leaflet-popup-tip { background: rgba(9, 17, 19, 0.95) !important; }
+        .leaflet-popup-content { margin: 12px 16px !important; font-family: inherit !important; }
+        .leaflet-container { font-family: inherit !important; background: #091113 !important; }
+        .leaflet-control-attribution { background: rgba(9,17,19,0.7) !important; color: rgba(240,244,245,0.3) !important; font-size: 10px !important; }
+        .leaflet-control-attribution a { color: rgba(46,183,217,0.5) !important; }
+        .leaflet-control-zoom a { background: rgba(9,17,19,0.9) !important; color: #9ACCD9 !important; border-color: rgba(255,255,255,0.1) !important; }
+        .leaflet-control-zoom a:hover { background: rgba(46,183,217,0.15) !important; }
       `}</style>
 
-      <MapContainer
-        center={[-15.0, -52.0]}
-        zoom={4}
-        className={styles.map}
-        zoomControl={true}
-      >
-        {/* Tile escuro compatível com o tema */}
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-        />
+      <MapContainer center={[-15.0, -52.0]} zoom={4} className={styles.map} zoomControl={true}>
+        <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://carto.com/">CARTO</a>' />
 
         {markers.map((marker) => (
-          <Marker
-            key={marker.city}
-            position={[marker.lat, marker.lng]}
-            icon={customIcon || undefined}
-          >
+          <Marker key={marker.city} position={[marker.lat, marker.lng]} icon={customIcon || undefined}>
             <Popup>
               <div style={{ minWidth: "130px" }}>
                 <p style={{ margin: "0 0 4px", fontSize: "0.8rem", color: "#2EB7D9", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>

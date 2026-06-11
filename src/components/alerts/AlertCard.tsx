@@ -1,8 +1,10 @@
 "use client";
 
+import React from "react";
+import type { Severity } from "@/types";
 import styles from "./AlertCard.module.css";
 
-const levelConfig = {
+const levelConfig: Record<Severity, { label: string; color: string; icon: React.ReactNode }> = {
   high: {
     label: "Alto",
     color: "var(--color-alert-high)",
@@ -37,7 +39,14 @@ const levelConfig = {
   },
 };
 
-export default function AlertCard({ level = "medium", title, description, solution }) {
+interface AlertCardProps {
+  level?: Severity;
+  title: string;
+  description: string;
+  solution: string;
+}
+
+export default function AlertCard({ level = "medium", title, description, solution }: AlertCardProps) {
   const config = levelConfig[level];
 
   return (
