@@ -1,5 +1,5 @@
 .card {
-  background: var(--color-secondary);
+  background: var(--color-card-kpi);
   border-radius: 0.75rem;
   padding: 1.5rem;
   display: flex;
@@ -48,13 +48,13 @@
 }
 
 .badgeUp {
-  background: rgba(148, 213, 120, 0.15);
+  background: rgba(var(--color-alert-low-rgb), 0.15);
   color: var(--color-alert-low);
-  border: 1px solid rgba(148, 213, 120, 0.3);
+  border: 1px solid rgba(var(--color-alert-low-rgb), 0.3);
 }
 
 .badgeDown {
-  background: rgba(228, 104, 104, 0.15);
+  background: rgba(var(--color-alert-high-rgb), 0.15);
   color: var(--color-alert-high);
-  border: 1px solid rgba(228, 104, 104, 0.3);
+  border: 1px solid rgba(var(--color-alert-high-rgb), 0.3);
 }

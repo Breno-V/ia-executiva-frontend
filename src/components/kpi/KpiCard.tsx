@@ -1,9 +1,14 @@
-// Card individual de KPI com indicador de tendência
 import styles from "./KpiCard.module.css";
 
-export default function KpiCard({ title, value, fullWidth = false, trend = null }) {
-  // trend: número positivo = alta, negativo = queda, null = sem indicador
-  const trendPositive = trend > 0;
+interface KpiCardProps {
+  title: string;
+  value: string;
+  fullWidth?: boolean;
+  trend?: number | null;
+}
+
+export default function KpiCard({ title, value, fullWidth = false, trend = null }: KpiCardProps) {
+  const trendPositive = trend !== null && trend > 0;
   const trendNeutral = trend === null;
 
   return (
@@ -13,7 +18,7 @@ export default function KpiCard({ title, value, fullWidth = false, trend = null 
         <p className={styles.value}>{value}</p>
         {!trendNeutral && (
           <span className={`${styles.badge} ${trendPositive ? styles.badgeUp : styles.badgeDown}`}>
-            {trendPositive ? "▲" : "▼"} {Math.abs(trend).toFixed(1)}%
+            {trendPositive ? "\u25B2" : "\u25BC"} {Math.abs(trend as number).toFixed(1)}%
           </span>
         )}
       </div>
