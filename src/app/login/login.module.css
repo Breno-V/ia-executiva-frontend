@@ -66,6 +66,16 @@
   opacity: 0.4;
 }
 
+.inputError {
+  border-color: var(--color-alert-high);
+}
+
+.fieldError {
+  color: var(--color-alert-high);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
 .error {
   color: var(--color-alert-high);
   font-size: 0.875rem;
