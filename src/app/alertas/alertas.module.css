@@ -171,7 +171,7 @@
 .input {
   flex: 1;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-accent);
   border-radius: 2rem;
   padding: 0.7rem 1.25rem;
   color: var(--foreground);

@@ -374,8 +374,36 @@
     padding: 2.5rem 1rem;
   }
 
-  .table th:nth-child(5),
+    .table th:nth-child(5),
   .table td:nth-child(5) {
     display: none;
   }
+}
+
+.pageBtn {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.pageBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  background: var(--color-accent);
+  color: var(--background);
+  border-color: var(--color-accent);
 }

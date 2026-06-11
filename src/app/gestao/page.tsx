@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useGestao } from "@/hooks/useGestao";
 import { formatCurrency } from "@/libs/formatters";
 import Link from "next/link";
 import AuthLayout from "@/components/layout/AuthLayout";
+import type { Severity } from "@/types";
 import styles from "./gestao.module.css";
 
-const severityConfig = {
+const severityConfig: Record<Severity, { label: string; color: string }> = {
   high: { label: "Alto", color: "var(--color-alert-high)" },
   medium: { label: "Médio", color: "var(--color-alert-medium)" },
   low: { label: "Baixo", color: "var(--color-alert-low)" },
@@ -17,21 +18,46 @@ export default function GestaoPage() {
   const { risks, loading, error } = useGestao();
   const [filterSeverity, setFilterSeverity] = useState("");
   const [filterArea, setFilterArea] = useState("");
-  const [expandedId, setExpandedId] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (typeof window !== "undefined") {
+      return new URLSearchParams(window.location.search).get("search") || "";
+    }
+    return "";
+  });
 
-  const areas = [...new Set(risks.map((risks) => risks.type || "Geral"))];
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setExpandedId(null);
+    }
+    if (expandedId !== null) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [expandedId]);
 
-  const filtered = risks.filter((risks) => {
-    const matchSeverity = !filterSeverity || risks.severity === filterSeverity;
-    const matchArea = !filterArea || (risks.type || "Geral") === filterArea;
+  const areas = [...new Set(risks.map((risk) => risk.type || "Geral"))];
+
+  const filtered = risks.filter((risk) => {
+    const matchSeverity = !filterSeverity || risk.severity === filterSeverity;
+    const matchArea = !filterArea || (risk.type || "Geral") === filterArea;
     const matchSearch = !searchQuery
-      || (risks.title || "").toLowerCase().includes(searchQuery.toLowerCase())
-      || (risks.problem || "").toLowerCase().includes(searchQuery.toLowerCase());
+      || (risk.title || "").toLowerCase().includes(searchQuery.toLowerCase())
+      || (risk.problem || "").toLowerCase().includes(searchQuery.toLowerCase());
     return matchSeverity && matchArea && matchSearch;
   });
 
-  function toggleExpand(id) {
+  const [page, setPage] = useState(1);
+  const perPage = 10;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const paginated = filtered.slice((page - 1) * perPage, page * perPage);
+
+  function handleFilterChange(setter: (v: string) => void, value: string) {
+    setter(value);
+    setPage(1);
+  }
+
+  function toggleExpand(id: number) {
     setExpandedId(expandedId === id ? null : id);
   }
 
@@ -39,27 +65,20 @@ export default function GestaoPage() {
     setFilterSeverity("");
     setFilterArea("");
     setSearchQuery("");
+    setPage(1);
   }
 
   return (
     <AuthLayout title="Gestão Principal">
       <div className={styles.wrapper}>
         <div className={styles.filters}>
-          <select
-            className={styles.select}
-            value={filterSeverity}
-            onChange={(e) => setFilterSeverity(e.target.value)}
-          >
+          <select className={styles.select} value={filterSeverity} onChange={(e) => handleFilterChange(setFilterSeverity, e.target.value)}>
             <option value="">Todos os riscos</option>
             <option value="high">Alto</option>
             <option value="medium">Médio</option>
             <option value="low">Baixo</option>
           </select>
-          <select
-            className={styles.select}
-            value={filterArea}
-            onChange={(e) => setFilterArea(e.target.value)}
-          >
+          <select className={styles.select} value={filterArea} onChange={(e) => handleFilterChange(setFilterArea, e.target.value)}>
             <option value="">Todas as áreas</option>
             {areas.map((area) => (
               <option key={area} value={area}>{area}</option>
@@ -70,7 +89,7 @@ export default function GestaoPage() {
             type="text"
             placeholder="Buscar na tabela..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleFilterChange(setSearchQuery, e.target.value)}
           />
         </div>
 
@@ -82,59 +101,18 @@ export default function GestaoPage() {
           <div className={styles.emptyState}>
             <div className={styles.emptyHero}>
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="M21 21l-4.35-4.35"/>
-                <path d="M11 8v6"/><path d="M8 11h6"/>
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/>
               </svg>
               <h3 className={styles.emptyTitle}>Nenhum diagnóstico disponível</h3>
-              <p className={styles.emptySub}>
-                Os riscos são gerados automaticamente pela IA após o upload de dados financeiros.
-              </p>
+              <p className={styles.emptySub}>Os riscos são gerados automaticamente pela IA após o upload de dados financeiros.</p>
             </div>
             <div className={styles.flowSteps}>
-              <div className={styles.flowCard}>
-                <div className={styles.flowIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
-                  </svg>
-                </div>
-                <h4 className={styles.flowTitle}>Upload de Dados</h4>
-                <p className={styles.flowDesc}>
-                  Faça upload de planilhas DFC e vendas para alimentar o sistema com informações financeiras.
-                </p>
-              </div>
-              <div className={styles.flowCard}>
-                <div className={styles.flowIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                  </svg>
-                </div>
-                <h4 className={styles.flowTitle}>Processamento IA</h4>
-                <p className={styles.flowDesc}>
-                  A IA executa regras de negócio para identificar riscos, anomalias e oportunidades.
-                </p>
-              </div>
-              <div className={styles.flowCard}>
-                <div className={styles.flowIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                  </svg>
-                </div>
-                <h4 className={styles.flowTitle}>Diagnósticos Gerados</h4>
-                <p className={styles.flowDesc}>
-                  Os resultados aparecem nesta tabela com nível de severidade, impacto financeiro e recomendações.
-                </p>
-              </div>
+              <div className={styles.flowCard}><div className={styles.flowIcon}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><h4 className={styles.flowTitle}>Upload de Dados</h4><p className={styles.flowDesc}>Faça upload de planilhas DFC e vendas para alimentar o sistema com informações financeiras.</p></div>
+              <div className={styles.flowCard}><div className={styles.flowIcon}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h4 className={styles.flowTitle}>Processamento IA</h4><p className={styles.flowDesc}>A IA executa regras de negócio para identificar riscos, anomalias e oportunidades.</p></div>
+              <div className={styles.flowCard}><div className={styles.flowIcon}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h4 className={styles.flowTitle}>Diagnósticos Gerados</h4><p className={styles.flowDesc}>Os resultados aparecem nesta tabela com nível de severidade, impacto financeiro e recomendações.</p></div>
             </div>
             <div className={styles.emptyActions}>
-              <p className={styles.emptyHint}>
-                Enquanto isso, você pode explorar o <Link href="/">Dashboard</Link> com KPIs atuais ou conversar com o <Link href="/alertas">Chatbot Executivo</Link>.
-              </p>
+              <p className={styles.emptyHint}>Enquanto isso, você pode explorar o <Link href="/">Dashboard</Link> com KPIs atuais ou conversar com o <Link href="/alertas">Chatbot Executivo</Link>.</p>
             </div>
           </div>
         ) : filtered.length === 0 ? (
@@ -165,7 +143,7 @@ export default function GestaoPage() {
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((risk) => {
+                {paginated.map((risk) => {
                   const config = severityConfig[risk.severity] || severityConfig.low;
                   const isExpanded = expandedId === risk.id;
                   return (
@@ -174,26 +152,18 @@ export default function GestaoPage() {
                       <td className={styles.area}>{risk.type || "Geral"}</td>
                       <td className={styles.desc}>{risk.title}</td>
                       <td>
-                        <span
-                          className={styles.badge}
-                          style={{ color: config.color, borderColor: config.color }}
-                        >
+                        <span className={styles.badge} style={{ color: config.color, borderColor: config.color }}>
                           {config.label}
                         </span>
                       </td>
-                      <td className={styles.impact}>
-                        {risk.impact ? formatCurrency(Number(risk.impact)) : "—"}
-                      </td>
+                      <td className={styles.impact}>{risk.impact ? formatCurrency(Number(risk.impact)) : "—"}</td>
                       <td className={styles.status}>
-                        <span className={`${styles.statusBadge} ${styles[risk.status || "open"]}`}>
+                        <span className={`${styles.statusBadge} ${styles[risk.status || "open"] as string}`}>
                           {risk.status || "open"}
                         </span>
                       </td>
                       <td>
-                        <button
-                          className={styles.detailBtn}
-                          onClick={() => toggleExpand(risk.id)}
-                        >
+                        <button className={styles.detailBtn} onClick={() => toggleExpand(risk.id)}>
                           {isExpanded ? "Fechar" : "Detalhar"}
                         </button>
                       </td>
@@ -204,7 +174,7 @@ export default function GestaoPage() {
             </table>
 
             {expandedId && (() => {
-              const risk = filtered.find((r) => r.id === expandedId);
+              const risk = paginated.find((r) => r.id === expandedId);
               if (!risk) return null;
               const config = severityConfig[risk.severity] || severityConfig.low;
               return (
@@ -216,9 +186,7 @@ export default function GestaoPage() {
                     </div>
                     <div>
                       <span className={styles.detailLabel}>Impacto Financeiro</span>
-                      <p className={styles.detailText}>
-                        {risk.impact ? formatCurrency(Number(risk.impact)) + "/mês" : "—"}
-                      </p>
+                      <p className={styles.detailText}>{risk.impact ? formatCurrency(Number(risk.impact)) + "/mês" : "—"}</p>
                     </div>
                     <div>
                       <span className={styles.detailLabel}>Recomendação</span>
@@ -232,6 +200,34 @@ export default function GestaoPage() {
                 </div>
               );
             })()}
+
+            {totalPages > 1 && (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", padding: "1.5rem 0" }}>
+                <button
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className={styles.pageBtn}
+                >
+                  Anterior
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => setPage(n)}
+                    className={`${styles.pageBtn} ${n === page ? styles.pageBtnActive : ""}`}
+                  >
+                    {n}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className={styles.pageBtn}
+                >
+                  Próximo
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
