@@ -1,6 +1,4 @@
-// formata qualquer valor para um padrão
-
-export function formatCurrency(value) {
+export function formatCurrency(value: number | null | undefined): string {
   if (value === null || value === undefined) return "—";
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -10,12 +8,8 @@ export function formatCurrency(value) {
   }).format(value);
 }
 
-export function formatPercent(value) {
+export function formatPercent(value: number | null | undefined): string {
   if (value === null || value === undefined) return "—";
   return `${value > 0 ? "+" : ""}${value.toFixed(1)}%`;
 }
 
-export function formatDate(value) {
-  if (!value) return "—";
-  return new Intl.DateTimeFormat("pt-BR").format(new Date(value));
-}

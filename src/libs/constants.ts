@@ -1,5 +1,3 @@
-// arquivo com valores fixos do projeto que são usados em vários lugares
-
 export const COLORS = {
   accent: "#2EB7D9",
   alertHigh: "#e46868",
@@ -7,7 +5,7 @@ export const COLORS = {
   alertLow: "#94d578",
 };
 
-export const REGION_COORDS = {
+export const REGION_COORDS: Record<string, { lat: number; lng: number; city: string }> = {
   "Sudeste": { lat: -23.55, lng: -46.63, city: "São Paulo" },
   "Sul":     { lat: -25.42, lng: -49.27, city: "Curitiba" },
   "Nordeste": { lat: -12.97, lng: -38.50, city: "Salvador" },
