@@ -80,9 +80,59 @@
   align-items: start;
 }
 
+.refreshBtn {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  background: rgba(var(--accent-rgb), 0.06);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.refreshBtn:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: var(--background);
+}
+
+.refreshBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /*MEDIA QUERIES*/
 
 @media (max-width: 900px) {
+  .dashboardGrid {
+    padding: 0 1rem;
+  }
+  .sectionNav {
+    gap: 0.5rem;
+    padding: 1rem 1rem 0;
+  }
+  .sectionLink {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.75rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -101,10 +151,46 @@
   .section {
     padding: 2rem 1rem;
   }
+
+  .kpiContainer {
+    padding: 1.25rem;
+  }
 }
 
 @media (max-width: 390px) {
   .section {
     padding: 2rem 0.75rem;
+  }
+
+  .dashboardGrid {
+    padding: 0 0.5rem;
+  }
+
+  .kpiContainer {
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .sectionNav {
+    gap: 0.35rem;
+  }
+
+  .sectionLink {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .dashboardGrid {
+    padding: 0 0.25rem;
+  }
+
+  .section {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .kpiGrid {
+    gap: 0.75rem;
   }
 }

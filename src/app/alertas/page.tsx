@@ -1,27 +1,21 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { getAlerts } from "@/services/api/insights";
 import AuthLayout from "@/components/layout/AuthLayout";
 import AlertCard from "@/components/alerts/AlertCard";
 import { useChat } from "@/hooks/useChat";
-import type { Alert, Severity } from "@/types";
+import { useAlerts } from "@/hooks/useAlerts";
+import type { Severity } from "@/types";
 import styles from "./alertas.module.css";
 
 export default function AlertasPage() {
   const [activeTab, setActiveTab] = useState<"alerts" | "chat">("alerts");
-  const [alerts, setAlerts] = useState<Alert[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { alerts, loading, error } = useAlerts();
   const { messages, loading: chatLoading, sendMessage } = useChat();
   const [input, setInput] = useState("");
   const chatRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    getAlerts()
-      .then(setAlerts)
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
+  useEffect(() => { document.title = "Alertas & Inteligência | IA Executiva"; }, []);
 
   useEffect(() => {
     if (chatRef.current) {
@@ -53,6 +47,10 @@ export default function AlertasPage() {
           <section className={styles.alertsSection}>
             {loading ? (
               <div className={styles.loading}>Carregando alertas...</div>
+            ) : error ? (
+              <p style={{ color: "var(--color-alert-high)", textAlign: "center", padding: "4rem 2rem" }}>
+                {error}
+              </p>
             ) : alerts.length === 0 ? (
               <div className={styles.emptyState}>
                 <div className={styles.emptyHero}>
@@ -92,7 +90,7 @@ export default function AlertasPage() {
               <p className={styles.chatSub}>Faça perguntas estratégicas sobre a saúde financeira e operacional da Cristália.</p>
             </div>
 
-            <div className={styles.chatMessages} ref={chatRef}>
+            <div className={styles.chatMessages} ref={chatRef} role="log" aria-live="polite">
               {messages.length === 0 && (
                 <div className={styles.chatEmpty}>
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.4 }}>

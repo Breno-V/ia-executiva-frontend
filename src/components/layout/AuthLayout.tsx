@@ -6,6 +6,7 @@ import { isAuthenticated } from "@/services/api/auth";
 import { LenisProvider } from "@/libs/LenisContext";
 import Sidebar from "@/components/layout/Sidebar";
 import SearchBar from "@/components/ui/SearchBar";
+import AiContextCard from "@/components/ui/AiContextCard";
 import styles from "./AuthLayout.module.css";
 
 interface AuthLayoutProps {
@@ -71,6 +72,7 @@ export default function AuthLayout({ children, title }: AuthLayoutProps) {
           </header>
           <main id="main-content" className={styles.main}>{children}</main>
         </div>
+        <AiContextCard />
       </div>
     </LenisProvider>
   );

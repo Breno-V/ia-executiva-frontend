@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useHome } from "@/hooks/useHome";
 import { formatCurrency, formatPercent } from "@/libs/formatters";
 import { getLenis } from "@/libs/LenisContext";
+import { useKpiStore } from "@/store/kpiStore";
 import AuthLayout from "@/components/layout/AuthLayout";
 import SectionTitle from "@/components/ui/SectionTitle";
 import KpiCard from "@/components/kpi/KpiCard";
@@ -17,6 +18,9 @@ import styles from "./page.module.css";
 
 export default function Home() {
   const { kpiDaily, alerts, loading, error } = useHome();
+  const { fetchKPIs, loading: refreshLoading } = useKpiStore();
+
+  useEffect(() => { document.title = "Dashboard | IA Executiva"; }, []);
 
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
@@ -45,6 +49,12 @@ export default function Home() {
           <button onClick={() => scrollTo("prioridade")} className={styles.sectionLink}>Prioridade</button>
           <button onClick={() => scrollTo("mapa")} className={styles.sectionLink}>Mapa</button>
           <button onClick={() => scrollTo("ia")} className={styles.sectionLink}>Análise IA</button>
+          <button onClick={fetchKPIs} className={styles.refreshBtn} disabled={refreshLoading} aria-label="Atualizar dados da IA">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={refreshLoading ? styles.spinning : ""}>
+              <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            {refreshLoading ? "Atualizando..." : "Atualizar IA"}
+          </button>
         </div>
 
         {loading ? (

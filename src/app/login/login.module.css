@@ -7,8 +7,8 @@
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(var(--surface-tint-rgb), 0.05);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.10);
   border-radius: 1rem;
   padding: 3rem 2.5rem;
   width: 100%;
@@ -48,8 +48,8 @@
 }
 
 .input {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(var(--surface-tint-rgb), 0.06);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.15);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   color: var(--foreground);
@@ -64,6 +64,34 @@
 
 .input::placeholder {
   opacity: 0.4;
+}
+
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordWrapper .input {
+  padding-right: 2.75rem;
+  width: 100%;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--foreground);
+  opacity: 0.4;
+  cursor: pointer;
+  padding: 0.35rem;
+  display: flex;
+  transition: opacity 0.2s;
+}
+
+.togglePassword:hover {
+  opacity: 0.7;
 }
 
 .inputError {
@@ -102,4 +130,33 @@
 .button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 2rem 1.5rem;
+    max-width: 100%;
+    margin: 0 1rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .card {
+    padding: 1.5rem 1rem;
+    gap: 1rem;
+  }
+  .title {
+    font-size: 1.3rem;
+  }
+  .input {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  .button {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
 }

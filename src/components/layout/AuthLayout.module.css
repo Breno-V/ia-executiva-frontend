@@ -78,3 +78,29 @@
     font-size: 1rem;
   }
 }
+
+@media (max-width: 480px) {
+  .topBar {
+    padding: 0.6rem 0.75rem;
+  }
+  .pageTitle {
+    font-size: 0.875rem;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .topBarRight {
+    gap: 0.4rem;
+  }
+  .themeBtn {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .pageTitle {
+    font-size: 0.8rem;
+    max-width: 100px;
+  }
+}

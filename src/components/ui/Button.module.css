@@ -24,3 +24,17 @@
   cursor: not-allowed;
   transform: none;
 }
+
+@media (max-width: 480px) {
+  .button {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .button {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.78rem;
+  }
+}

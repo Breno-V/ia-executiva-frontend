@@ -23,6 +23,7 @@ export default function SearchBar() {
         className={styles.input}
         type="text"
         placeholder="Buscar por área, risco ou diagnóstico..."
+        aria-label="Buscar por área, risco ou diagnóstico"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}

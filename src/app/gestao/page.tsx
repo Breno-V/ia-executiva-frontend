@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useGestao } from "@/hooks/useGestao";
 import { formatCurrency } from "@/libs/formatters";
 import Link from "next/link";
@@ -16,6 +16,7 @@ const severityConfig: Record<Severity, { label: string; color: string }> = {
 
 export default function GestaoPage() {
   const { risks, loading, error } = useGestao();
+  useEffect(() => { document.title = "Gestão Principal | IA Executiva"; }, []);
   const [filterSeverity, setFilterSeverity] = useState("");
   const [filterArea, setFilterArea] = useState("");
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -25,14 +26,26 @@ export default function GestaoPage() {
     }
     return "";
   });
+  const detailPanelRef = useRef<HTMLDivElement>(null);
+  const lastButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setExpandedId(null);
+      if (e.key === "Escape") {
+        setExpandedId(null);
+        lastButtonRef.current?.focus();
+        lastButtonRef.current = null;
+      }
     }
     if (expandedId !== null) {
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [expandedId]);
+
+  useEffect(() => {
+    if (expandedId !== null) {
+      detailPanelRef.current?.focus();
     }
   }, [expandedId]);
 
@@ -57,8 +70,14 @@ export default function GestaoPage() {
     setPage(1);
   }
 
-  function toggleExpand(id: number) {
-    setExpandedId(expandedId === id ? null : id);
+  function toggleExpand(id: number, buttonRef?: HTMLButtonElement | null) {
+    if (expandedId === id) {
+      setExpandedId(null);
+      buttonRef?.focus();
+    } else {
+      lastButtonRef.current = buttonRef || null;
+      setExpandedId(id);
+    }
   }
 
   function clearFilters() {
@@ -163,7 +182,10 @@ export default function GestaoPage() {
                         </span>
                       </td>
                       <td>
-                        <button className={styles.detailBtn} onClick={() => toggleExpand(risk.id)}>
+                        <button
+                          className={styles.detailBtn}
+                          onClick={(e) => toggleExpand(risk.id, e.currentTarget)}
+                        >
                           {isExpanded ? "Fechar" : "Detalhar"}
                         </button>
                       </td>
@@ -178,7 +200,7 @@ export default function GestaoPage() {
               if (!risk) return null;
               const config = severityConfig[risk.severity] || severityConfig.low;
               return (
-                <div className={styles.detailPanel} style={{ borderLeftColor: config.color }}>
+                <div className={styles.detailPanel} ref={detailPanelRef} tabIndex={-1} style={{ borderLeftColor: config.color }}>
                   <div className={styles.detailGrid}>
                     <div>
                       <span className={styles.detailLabel}>Problema</span>

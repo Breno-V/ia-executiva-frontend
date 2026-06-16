@@ -58,3 +58,36 @@
   color: var(--color-alert-high);
   border: 1px solid rgba(var(--color-alert-high-rgb), 0.3);
 }
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+  }
+  .value {
+    font-size: 1.25rem;
+  }
+  .title {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .card {
+    padding: 0.85rem;
+  }
+  .value {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .card {
+    padding: 0.75rem;
+  }
+  .value {
+    font-size: 1rem;
+  }
+  .title {
+    font-size: 0.72rem;
+  }
+}

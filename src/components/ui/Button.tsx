@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./Button.module.css";
 
 interface ButtonProps {
@@ -8,7 +10,7 @@ interface ButtonProps {
 
 export default function Button({ label, onClick, disabled = false }: ButtonProps) {
   return (
-    <button className={styles.button} onClick={onClick} disabled={disabled}>
+    <button className={styles.button} type="button" onClick={onClick} disabled={disabled}>
       {label}
     </button>
   );

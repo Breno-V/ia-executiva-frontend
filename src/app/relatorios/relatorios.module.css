@@ -22,12 +22,12 @@
 }
 
 .summaryBox {
-  background: rgba(46, 183, 217, 0.04);
-  border: 1px solid rgba(46, 183, 217, 0.15);
-  border-top-color: rgba(46, 183, 217, 0.25);
+  background: rgba(var(--accent-rgb), 0.04);
+  border: 1px solid rgba(var(--accent-rgb), 0.15);
+  border-top-color: rgba(var(--accent-rgb), 0.25);
   border-radius: 1rem;
   padding: 2rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(46, 183, 217, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(var(--accent-rgb), 0.08);
 }
 
 .summaryText {
@@ -52,8 +52,8 @@
 }
 
 .tableWrapper {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(var(--bg-surface-rgb), 0.45);
+  border: 1px solid rgba(var(--border-muted-rgb), 0.06);
   border-radius: 1rem;
   overflow: hidden;
 }
@@ -72,15 +72,15 @@
   letter-spacing: 0.08em;
   color: var(--foreground);
   opacity: 0.4;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(var(--border-muted-rgb), 0.06);
+  background: rgba(var(--bg-surface-rgb), 0.25);
 }
 
 .table td {
   padding: 0.875rem 1.25rem;
   font-size: 0.9rem;
   color: var(--foreground);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(var(--border-muted-rgb), 0.03);
 }
 
 .table tr:last-child td {
@@ -109,8 +109,8 @@
   margin: 0 auto;
   position: relative;
   height: 380px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-secondary);
+  border: 1px solid rgba(var(--border-muted-rgb), 0.06);
   border-radius: 1rem;
   padding: 1.5rem;
 }
@@ -129,5 +129,49 @@
   .table td, .table th {
     padding: 0.75rem 0.75rem;
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 0.75rem;
+    gap: 1.5rem;
+  }
+
+  .radarWrapper {
+    height: 260px;
+    padding: 1rem;
+  }
+
+  .table td, .table th {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  .summaryBox {
+    padding: 1.25rem;
+  }
+
+  .sectionTitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .radarWrapper {
+    height: 220px;
+    padding: 0.75rem;
+  }
+
+  .table td, .table th {
+    padding: 0.5rem 0.35rem;
+    font-size: 0.68rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .wrapper {
+    padding: 0.5rem;
+    gap: 1rem;
   }
 }

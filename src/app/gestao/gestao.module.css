@@ -14,8 +14,8 @@
 }
 
 .select, .searchInput {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(var(--surface-tint-rgb), 0.06);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.12);
   border-radius: 0.75rem;
   padding: 0.6rem 1rem;
   color: var(--foreground);
@@ -25,7 +25,7 @@
 }
 
 .select option {
-  background: #1a1a2e;
+  background: var(--background);
   color: var(--foreground);
 }
 
@@ -43,8 +43,8 @@
 }
 
 .tableWrapper {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(var(--surface-tint-rgb), 0.03);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.08);
   border-radius: 1rem;
   overflow: hidden;
 }
@@ -63,19 +63,19 @@
   letter-spacing: 0.08em;
   color: var(--foreground);
   opacity: 0.4;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(var(--surface-tint-rgb), 0.08);
+  background: rgba(var(--surface-tint-rgb), 0.02);
 }
 
 .table td {
   padding: 0.875rem 1rem;
   font-size: 0.85rem;
   color: var(--foreground);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(var(--surface-tint-rgb), 0.05);
 }
 
 .row:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(var(--surface-tint-rgb), 0.04);
 }
 
 .id {
@@ -103,7 +103,7 @@
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
   border: 1px solid;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(var(--surface-tint-rgb), 0.04);
   white-space: nowrap;
 }
 
@@ -119,8 +119,8 @@
   letter-spacing: 0.06em;
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(var(--surface-tint-rgb), 0.04);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.15);
 }
 
 .status.open {
@@ -157,8 +157,8 @@
 }
 
 .detailPanel {
-  background: rgba(255, 255, 255, 0.03);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(var(--surface-tint-rgb), 0.03);
+  border-top: 1px solid rgba(var(--surface-tint-rgb), 0.08);
   border-left: 3px solid;
   padding: 1.5rem 2rem;
   animation: slideDown 0.2s ease;
@@ -241,8 +241,8 @@
 }
 
 .flowCard {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(var(--surface-tint-rgb), 0.03);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.08);
   border-radius: 1rem;
   padding: 1.5rem;
   display: flex;
@@ -260,7 +260,7 @@
   width: 44px;
   height: 44px;
   border-radius: 0.75rem;
-  background: rgba(46, 183, 217, 0.08);
+  background: rgba(var(--accent-rgb), 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -374,9 +374,77 @@
     padding: 2.5rem 1rem;
   }
 
-    .table th:nth-child(5),
+  .table th:nth-child(5),
   .table td:nth-child(5) {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 0.75rem;
+  }
+
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    display: none;
+  }
+
+  .table th, .table td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.78rem;
+  }
+
+  .desc {
+    max-width: 140px;
+  }
+
+  .detailPanel {
+    padding: 1rem;
+  }
+
+  .emptyFlowCards .flowCard:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 390px) {
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    display: none;
+  }
+
+  .table th, .table td {
+    padding: 0.5rem 0.35rem;
+    font-size: 0.72rem;
+  }
+
+  .desc {
+    max-width: 100px;
+  }
+
+  .pageBtn {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .detailBtn {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .wrapper {
+    padding: 0.5rem;
+  }
+
+  .desc {
+    max-width: 70px;
+  }
+
+  .filters {
+    gap: 0.5rem;
   }
 }
 
@@ -385,7 +453,7 @@
   font-weight: 600;
   padding: 0.4rem 0.9rem;
   border-radius: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.15);
   background: transparent;
   color: var(--foreground);
   cursor: pointer;

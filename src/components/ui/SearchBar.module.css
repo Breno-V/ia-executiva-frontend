@@ -16,8 +16,8 @@
 
 .input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(var(--surface-tint-rgb), 0.06);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.12);
   border-radius: 2rem;
   padding: 0.6rem 1rem 0.6rem 2.5rem;
   color: var(--foreground);
@@ -33,5 +33,18 @@
 
 .input:focus {
   border-color: var(--color-accent);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(var(--surface-tint-rgb), 0.08);
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    max-width: 100%;
+  }
+  .input {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem 0.5rem 2rem;
+  }
+  .icon {
+    left: 10px;
+  }
 }
