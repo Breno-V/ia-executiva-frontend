@@ -1,0 +1,65 @@
+.card {
+  background: rgba(var(--surface-tint-rgb), 0.03);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.08);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.unitName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 1rem;
+  border: 1px solid;
+}
+
+.impact {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0.15rem;
+}
+
+.impactLabel {
+  font-size: 0.7rem;
+  color: var(--foreground);
+  opacity: 0.4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 0.85rem 1rem;
+  }
+  .unitName {
+    font-size: 0.8rem;
+  }
+  .impact {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .card {
+    padding: 0.75rem;
+  }
+  .impact {
+    font-size: 0.9rem;
+  }
+}
