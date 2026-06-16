@@ -1,10 +1,3 @@
-export const COLORS = {
-  accent: "#2EB7D9",
-  alertHigh: "#e46868",
-  alertMedium: "#e6ac6e",
-  alertLow: "#94d578",
-};
-
 export const REGION_COORDS: Record<string, { lat: number; lng: number; city: string }> = {
   "Sudeste": { lat: -23.55, lng: -46.63, city: "São Paulo" },
   "Sul":     { lat: -25.42, lng: -49.27, city: "Curitiba" },
@@ -13,4 +6,4 @@ export const REGION_COORDS: Record<string, { lat: number; lng: number; city: str
   "Centro-Oeste": { lat: -15.77, lng: -47.92, city: "Brasília" },
 };
 
-export const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+
