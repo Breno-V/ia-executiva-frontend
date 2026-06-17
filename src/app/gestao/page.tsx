@@ -5,6 +5,7 @@ import { useGestao } from "@/hooks/useGestao";
 import { formatCurrency } from "@/libs/formatters";
 import Link from "next/link";
 import AuthLayout from "@/components/layout/AuthLayout";
+import { z } from "zod";
 import type { Severity } from "@/types";
 import styles from "./gestao.module.css";
 
@@ -22,7 +23,9 @@ export default function GestaoPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState(() => {
     if (typeof window !== "undefined") {
-      return new URLSearchParams(window.location.search).get("search") || "";
+      const raw = new URLSearchParams(window.location.search).get("search") || "";
+      const result = z.string().max(200).safeParse(raw);
+      return result.success ? result.data : "";
     }
     return "";
   });
@@ -107,6 +110,7 @@ export default function GestaoPage() {
             className={styles.searchInput}
             type="text"
             placeholder="Buscar na tabela..."
+            maxLength={200}
             value={searchQuery}
             onChange={(e) => handleFilterChange(setSearchQuery, e.target.value)}
           />
@@ -115,7 +119,7 @@ export default function GestaoPage() {
         {loading ? (
           <div className={styles.loading}>Carregando riscos...</div>
         ) : error ? (
-          <p style={{ color: "var(--color-alert-high)", textAlign: "center" }}>{error}</p>
+          <p style={{ color: "var(--color-alert-high)", textAlign: "center" }}>Erro ao carregar dados. Tente novamente mais tarde.</p>
         ) : risks.length === 0 ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyHero}>
@@ -185,6 +189,8 @@ export default function GestaoPage() {
                         <button
                           className={styles.detailBtn}
                           onClick={(e) => toggleExpand(risk.id, e.currentTarget)}
+                          aria-expanded={isExpanded}
+                          aria-controls={`risk-detail-${risk.id}`}
                         >
                           {isExpanded ? "Fechar" : "Detalhar"}
                         </button>
@@ -200,7 +206,7 @@ export default function GestaoPage() {
               if (!risk) return null;
               const config = severityConfig[risk.severity] || severityConfig.low;
               return (
-                <div className={styles.detailPanel} ref={detailPanelRef} tabIndex={-1} style={{ borderLeftColor: config.color }}>
+                <div id={`risk-detail-${risk.id}`} className={styles.detailPanel} ref={detailPanelRef} tabIndex={-1} style={{ borderLeftColor: config.color }}>
                   <div className={styles.detailGrid}>
                     <div>
                       <span className={styles.detailLabel}>Problema</span>

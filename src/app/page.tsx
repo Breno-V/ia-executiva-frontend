@@ -9,10 +9,9 @@ import AuthLayout from "@/components/layout/AuthLayout";
 import SectionTitle from "@/components/ui/SectionTitle";
 import KpiCard from "@/components/kpi/KpiCard";
 import RegionalMap from "@/components/map/RegionalMap";
-import IaSection from "@/components/ui/AiSection";
+import AiSection from "@/components/ui/AiSection";
 import ProjectionLineChart from "@/components/charts/ProjectionLineChart";
 import PriorityBarChart from "@/components/charts/PriorityBarChart";
-import Footer from "@/components/layout/Footer";
 import SkeletonLoader from "@/components/ui/SkeletonLoader";
 import styles from "./page.module.css";
 
@@ -92,11 +91,10 @@ export default function Home() {
               <RegionalMap />
             </section>
 
-            <IaSection alerts={alerts} />
+            <AiSection alerts={alerts} />
           </div>
         )}
       </div>
-      <Footer />
     </AuthLayout>
   );
 }

@@ -1,19 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { z } from "zod";
 import styles from "./login.module.css";
 
 const loginSchema = z.object({
-  email: z.string().email("Informe um email válido"),
+  email: z.email("Informe um email válido"),
   password: z.string().min(1, "A senha é obrigatória"),
 });
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, loading, error: authError } = useAuth();
+  const { login, loading, error: authError, token } = useAuth();
+  useEffect(() => {
+    document.title = "Login | IA Executiva";
+    if (token) {
+      router.replace("/");
+    }
+  }, [token, router]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -53,6 +59,7 @@ export default function LoginPage() {
             id="login-email"
             className={`${styles.input} ${fieldErrors.email ? styles.inputError : ""}`}
             type="email"
+            maxLength={254}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="ceo@cristalia.com.br"
@@ -67,6 +74,7 @@ export default function LoginPage() {
               id="login-password"
               className={`${styles.input} ${fieldErrors.password ? styles.inputError : ""}`}
               type={showPassword ? "text" : "password"}
+              maxLength={128}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"

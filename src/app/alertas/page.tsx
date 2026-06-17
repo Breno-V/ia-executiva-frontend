@@ -34,17 +34,36 @@ export default function AlertasPage() {
   return (
     <AuthLayout title="Alertas &amp; Inteligência">
       <div className={styles.wrapper}>
-        <div className={styles.tabs}>
-          <button className={`${styles.tab} ${activeTab === "alerts" ? styles.activeTab : ""}`} onClick={() => setActiveTab("alerts")}>
+        <div className={styles.tabs} role="tablist" aria-label="Seções de alertas e chat">
+          <button
+            role="tab"
+            aria-selected={activeTab === "alerts"}
+            aria-controls="panel-alerts"
+            id="tab-alerts"
+            className={`${styles.tab} ${activeTab === "alerts" ? styles.activeTab : ""}`}
+            onClick={() => setActiveTab("alerts")}
+          >
             Painel de Alertas
           </button>
-          <button className={`${styles.tab} ${activeTab === "chat" ? styles.activeTab : ""}`} onClick={() => setActiveTab("chat")}>
+          <button
+            role="tab"
+            aria-selected={activeTab === "chat"}
+            aria-controls="panel-chat"
+            id="tab-chat"
+            className={`${styles.tab} ${activeTab === "chat" ? styles.activeTab : ""}`}
+            onClick={() => setActiveTab("chat")}
+          >
             Chatbot Executivo
           </button>
         </div>
 
         {activeTab === "alerts" && (
-          <section className={styles.alertsSection}>
+          <section
+            className={styles.alertsSection}
+            role="tabpanel"
+            id="panel-alerts"
+            aria-labelledby="tab-alerts"
+          >
             {loading ? (
               <div className={styles.loading}>Carregando alertas...</div>
             ) : error ? (
@@ -84,7 +103,12 @@ export default function AlertasPage() {
         )}
 
         {activeTab === "chat" && (
-          <section className={styles.chatSection}>
+          <section
+            className={styles.chatSection}
+            role="tabpanel"
+            id="panel-chat"
+            aria-labelledby="tab-chat"
+          >
             <div className={styles.chatHeader}>
               <h2 className={styles.chatTitle}>Assistente IA Executiva</h2>
               <p className={styles.chatSub}>Faça perguntas estratégicas sobre a saúde financeira e operacional da Cristália.</p>
@@ -118,6 +142,7 @@ export default function AlertasPage() {
                 className={styles.input}
                 type="text"
                 placeholder="Digite sua pergunta..."
+                maxLength={500}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
