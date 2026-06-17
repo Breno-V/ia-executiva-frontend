@@ -24,6 +24,7 @@ export default function SearchBar() {
         type="text"
         placeholder="Buscar por área, risco ou diagnóstico..."
         aria-label="Buscar por área, risco ou diagnóstico"
+        maxLength={200}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}

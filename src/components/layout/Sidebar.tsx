@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { logout } from "@/services/api/auth";
@@ -19,10 +20,7 @@ export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-        </svg>
-        <span className={styles.logoText}>IA Executiva</span>
+        <Image src="/EXECUTIVOX.png" alt="ExecutivoX" width={200} height={200} />
       </div>
 
       <nav className={styles.nav} aria-label="Navegação principal">

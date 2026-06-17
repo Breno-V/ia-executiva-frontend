@@ -3,8 +3,10 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { isAuthenticated } from "@/services/api/auth";
+import { wsClient } from "@/services/websocket";
 import { LenisProvider } from "@/libs/LenisContext";
 import Sidebar from "@/components/layout/Sidebar";
+import Footer from "@/components/layout/Footer";
 import SearchBar from "@/components/ui/SearchBar";
 import AiContextCard from "@/components/ui/AiContextCard";
 import styles from "./AuthLayout.module.css";
@@ -41,7 +43,14 @@ export default function AuthLayout({ children, title }: AuthLayoutProps) {
   useEffect(() => {
     if (!isAuthenticated()) {
       router.push("/login");
+      return;
     }
+    const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
+    if (wsUrl) {
+      const token = localStorage.getItem("access_token") || "";
+      wsClient.connect(wsUrl, token);
+    }
+    return () => wsClient.disconnect();
   }, [router]);
 
   if (!mounted || !isAuthenticated()) {
@@ -71,6 +80,7 @@ export default function AuthLayout({ children, title }: AuthLayoutProps) {
             </div>
           </header>
           <main id="main-content" className={styles.main}>{children}</main>
+          <Footer />
         </div>
         <AiContextCard />
       </div>

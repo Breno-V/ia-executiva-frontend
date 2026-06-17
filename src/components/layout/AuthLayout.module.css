@@ -19,8 +19,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1rem 2rem;
-  margin-top: 0.23rem;
+  padding: 1.5rem 2rem;
   background: rgba(var(--bg-surface-rgb), 0.8);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(var(--border-muted-rgb), 0.06);

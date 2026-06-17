@@ -40,12 +40,6 @@ export interface RegionRevenue {
   total: number;
 }
 
-export interface ChannelRevenue {
-  channel: string;
-  total: number;
-  percent?: number;
-}
-
 export interface InsightResponse {
   exec_summary?: string;
   narrative_text?: string;

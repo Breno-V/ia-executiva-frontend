@@ -7,11 +7,11 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import type { Alert, Severity } from "@/types";
 import styles from "./AiSection.module.css";
 
-interface IaSectionProps {
+interface AiSectionProps {
   alerts?: Alert[];
 }
 
-export default function IaSection({ alerts = [] }: IaSectionProps) {
+export default function AiSection({ alerts = [] }: AiSectionProps) {
   const { summary, loading, error, generateSummary } = useAI();
 
   const severityMap: Record<string, Severity> = { high: "high", medium: "medium", low: "low" };
