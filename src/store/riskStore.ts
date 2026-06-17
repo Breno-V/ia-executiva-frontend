@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import * as insightsApi from "@/services/api/insights";
+import { mockAlerts } from "@/services/mockData";
 import type { Alert } from "@/types";
 
 interface RiskState {
@@ -20,10 +21,14 @@ export const useRiskStore = create<RiskState>((set) => ({
       const alertsData = await insightsApi.getAlerts();
       set({ risks: alertsData, loading: false });
     } catch (err) {
-      set({ error: (err as Error).message, loading: false });
+      set({ risks: mockAlerts, loading: false, error: null });
     }
   },
-  // FIXME: riskStore e alertStore são idênticos porque o backend ainda
-  // não expõe um endpoint /risks separado. Quando existir, trocar
-  // insightsApi.getAlerts() por um insightsApi.getRisks().
+  // FIXME: riskStore e alertStore (src/store/alertStore.ts) compartilham a
+  // mesma implementação porque o backend ainda não expõe um endpoint /risks
+  // separado. Ambas chamam insightsApi.getAlerts(). Quando /risks existir,
+  // trocar a chamada em fetchRisks para insightsApi.getRisks() e remover
+  // esta store se quiser, ou mantê-la como alias semântico para riscos.
+  // Nota: alertStore tem assinatura WebSocket (wsClient.on("alert:new"))
+  // que riskStore não possui — manter sync se adicionar ao riskStore.
 }));

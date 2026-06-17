@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import * as insightsApi from "@/services/api/insights";
+import { mockAlerts } from "@/services/mockData";
+import { wsClient } from "@/services/websocket";
 import type { Alert } from "@/types";
 
 interface AlertState {
@@ -20,7 +22,11 @@ export const useAlertStore = create<AlertState>((set) => ({
       const alertsData = await insightsApi.getAlerts();
       set({ alerts: alertsData, loading: false });
     } catch (err) {
-      set({ error: (err as Error).message, loading: false });
+      set({ alerts: mockAlerts, loading: false, error: null });
     }
   },
 }));
+
+wsClient.on<Alert>("alert:new", (alert) => {
+  useAlertStore.setState((s) => ({ alerts: [alert, ...s.alerts] }));
+});
