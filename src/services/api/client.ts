@@ -66,8 +66,9 @@ api.interceptors.response.use(
       );
       const { access_token } = response.data;
       localStorage.setItem("access_token", access_token);
-      const secure = window.location.protocol === "https:" ? "; Secure" : "";
-      document.cookie = `access_token=${access_token}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax${secure}`;
+      const isHttps = window.location.protocol === "https:";
+      const secure = isHttps ? "; Secure" : "";
+      document.cookie = `access_token=${access_token}; path=/; max-age=${60 * 60 * 24}; SameSite=Strict${secure}`;
       processQueue(null, access_token);
       originalRequest.headers.Authorization = `Bearer ${access_token}`;
       return api(originalRequest);

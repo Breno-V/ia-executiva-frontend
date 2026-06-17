@@ -2,8 +2,9 @@ import api from "./client";
 import type { LoginResponse } from "@/types";
 
 function setTokenCookie(token: string) {
-  const secure = typeof window !== "undefined" && window.location.protocol === "https:" ? "; Secure" : "";
-  document.cookie = `access_token=${token}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax${secure}`;
+  const isHttps = typeof window !== "undefined" && window.location.protocol === "https:";
+  const secure = isHttps ? "; Secure" : "";
+  document.cookie = `access_token=${token}; path=/; max-age=${60 * 60 * 24}; SameSite=Strict${secure}`;
 }
 
 function removeTokenCookie() {
