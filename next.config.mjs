@@ -6,6 +6,7 @@ if (!process.env.NEXT_PUBLIC_API_URL) {
 }
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL.replace(/^https?:\/\//, "");
+const wsUrl = (process.env.NEXT_PUBLIC_WS_URL || "").replace(/^wss?:\/\//, "");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -34,6 +35,7 @@ const nextConfig = {
   },
 
   async headers() {
+    const isDev = process.env.NODE_ENV === "development";
     return [
       {
         source: "/(.*)",
@@ -42,10 +44,10 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: *.cartocdn.com",
-              `connect-src 'self' ${apiUrl}`,
+              `connect-src 'self' ${apiUrl}${wsUrl ? ` ${wsUrl}` : ""}`,
               "font-src 'self' data:",
               "base-uri 'self'",
               "form-action 'self'",
