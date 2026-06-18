@@ -15,8 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IA Executiva | Cristália",
+  title: "ExecutivoX",
   description: "Cockpit estratégico para CEO e liderança executiva",
+  icons: {
+    icon: "/X-icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
