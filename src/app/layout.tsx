@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "ExecutivoX",
   description: "Cockpit estratégico para CEO e liderança executiva",
   icons: {
-    icon: "/X-icon.svg",
+    icon: "/X-icon.svg?v=2",
   },
 };
 

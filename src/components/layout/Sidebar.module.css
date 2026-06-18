@@ -20,13 +20,6 @@
   margin-bottom: 0.5rem;
 }
 
-.logoText {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--foreground);
-  letter-spacing: 0.02em;
-}
-
 .nav {
   flex: 1;
   display: flex;

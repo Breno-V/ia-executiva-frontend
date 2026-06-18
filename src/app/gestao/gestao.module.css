@@ -138,6 +138,16 @@
   border-color: rgba(148, 213, 120, 0.3);
 }
 
+.status.in_progress {
+  color: var(--color-accent);
+  border-color: rgba(100, 180, 255, 0.3);
+}
+
+.status.resolved {
+  color: var(--color-alert-low);
+  border-color: rgba(148, 213, 120, 0.3);
+}
+
 .detailBtn {
   font-size: 0.75rem;
   font-weight: 600;
@@ -403,7 +413,7 @@
     padding: 1rem;
   }
 
-  .emptyFlowCards .flowCard:first-child {
+  .emptyState .flowCard:first-child {
     grid-column: 1 / -1;
   }
 }

@@ -20,7 +20,7 @@ export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>
-        <Image src="/EXECUTIVOX.png" alt="ExecutivoX" width={200} height={200} />
+        <Image src="/EXECUTIVOX.png" alt="ExecutivoX" width={200} height={200} loading="eager" style={{ width: "auto", height: "auto" }} />
       </div>
 
       <nav className={styles.nav} aria-label="Navegação principal">
