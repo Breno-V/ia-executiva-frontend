@@ -1,4 +1,4 @@
-import type { KpiDaily, KpiMonthly, Alert, RegionRevenue, ProjectionData, UnitStatus, RadarMetric, InsightResponse } from "@/types";
+import type { KpiDaily, KpiMonthly, Alert, RegionRevenue } from "@/types";
 
 export const mockKpiDaily: KpiDaily = {
   revenue: 4_250_000,
@@ -87,50 +87,10 @@ export const mockRegionRevenue: RegionRevenue[] = [
   { region: "Norte", total: 150_000 },
 ] as RegionRevenue[];
 
-export const mockProjections: ProjectionData[] = [
-  { period: "Atual", revenue: 4_250_000, expenses: 3_200_000, net: 1_050_000 },
-  { period: "30 dias", revenue: 4_450_000, expenses: 3_250_000, net: 1_200_000 },
-  { period: "90 dias", revenue: 4_800_000, expenses: 3_350_000, net: 1_450_000 },
-  { period: "180 dias", revenue: 5_200_000, expenses: 3_500_000, net: 1_700_000 },
-  { period: "360 dias", revenue: 6_100_000, expenses: 3_800_000, net: 2_300_000 },
-];
-
-export const mockUnitStatuses: UnitStatus[] = [
-  { name: "Campinas", status: "stable", financialImpact: 420_000 },
-  { name: "São Paulo", status: "stable", financialImpact: 380_000 },
-  { name: "Interior", status: "attention", financialImpact: 280_000 },
-  { name: "São Bernardo", status: "critical", financialImpact: 180_000 },
-  { name: "São José dos Campos", status: "stable", financialImpact: 340_000 },
-];
-
-export const mockRadarMetrics: RadarMetric[] = [
-  { label: "Produtividade", before: 45, after: 78 },
-  { label: "Integração", before: 30, after: 85 },
-  { label: "Controle", before: 50, after: 72 },
-  { label: "Velocidade", before: 35, after: 68 },
-  { label: "Previsibilidade", before: 40, after: 80 },
-];
-
-export const mockInsightResponse: InsightResponse = {
-  exec_summary: "A receita acumulada no ano apresenta crescimento consistente de 8.2% em relação ao semestre anterior. A concentração no canal de especialidades requer atenção, mas o ROI de 312% sobre investimentos em automação indica retorno expressivo. A redução de custos operacionais projetada para os próximos 180 dias pode gerar economia adicional de R$ 1,7 milhão.",
-  narrative_text: "Análise gerada com base nos dados financeiros disponíveis.",
-};
-
-export const mockKpiCards = {
-  economiaPotencial: 510_000,
-  ganhoProdutividade: 34,
-  potencialAutomacao: 58,
-  roiEstimado: 312,
-};
-
 export function getMockKpiData() {
   return {
     kpiDaily: mockKpiDaily,
     kpisMonthly: mockKpisMonthly,
     alerts: mockAlerts,
   };
-}
-
-export function getMockKpiCards() {
-  return mockKpiCards;
 }
