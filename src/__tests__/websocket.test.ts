@@ -66,11 +66,13 @@ describe("WSClient", () => {
     expect(client.getStatus()).toBe("disconnected");
   });
 
-  it("connects and creates a WebSocket with token", () => {
-    const wsMock = mockWebSocket();
+  it("connects and sends auth message on open", () => {
+    const { ws, triggerOpen } = mockWebSocket();
     const client = new WSClient();
     client.connect("ws://test", "secret");
-    expect(WebSocket).toHaveBeenCalledWith("ws://test?token=secret");
+    expect(WebSocket).toHaveBeenCalledWith("ws://test");
+    triggerOpen();
+    expect(ws.send).toHaveBeenCalledWith(JSON.stringify({ type: "auth", data: { token: "secret" } }));
   });
 
   it("transitions to connected on open", () => {

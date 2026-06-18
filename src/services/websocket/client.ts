@@ -31,11 +31,12 @@ export class WSClient {
     if (this.destroyed) return;
     this.cleanup();
 
-    const ws = new WebSocket(`${this.url}?token=${this.token}`);
+    const ws = new WebSocket(this.url);
     this.ws = ws;
 
     ws.onopen = () => {
       if (this.destroyed) return;
+      ws.send(JSON.stringify({ type: "auth", data: { token: this.token } }));
       this.setStatus("connected");
       this.backoff = INITIAL_BACKOFF;
       this.flushPending();
