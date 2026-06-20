@@ -11,12 +11,16 @@ function removeTokenCookie() {
   document.cookie = "access_token=; path=/; max-age=0";
 }
 
+export async function register(name: string, email: string, password: string, companyName?: string, companyAddress?: string): Promise<void> {
+  await api.post("/auth/register", { name, email, password, companyName, companyAddress });
+}
+
 export async function login(email: string, password: string): Promise<string> {
   const response = await api.post<LoginResponse>("/auth/login", { email, password });
-  const { access_token } = response.data;
-  localStorage.setItem("access_token", access_token);
-  setTokenCookie(access_token);
-  return access_token;
+  const accessToken = response.data.data.accessToken;
+  localStorage.setItem("access_token", accessToken);
+  setTokenCookie(accessToken);
+  return accessToken;
 }
 
 export function logout(): void {
@@ -37,10 +41,10 @@ export async function refreshToken(): Promise<string> {
   if (!currentToken) throw new Error("No token to refresh");
 
   const response = await api.post<LoginResponse>("/auth/refresh", {
-    access_token: currentToken,
+    accessToken: currentToken,
   });
-  const { access_token } = response.data;
-  localStorage.setItem("access_token", access_token);
-  setTokenCookie(access_token);
-  return access_token;
+  const accessToken = response.data.data.accessToken;
+  localStorage.setItem("access_token", accessToken);
+  setTokenCookie(accessToken);
+  return accessToken;
 }

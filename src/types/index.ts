@@ -3,7 +3,23 @@ export interface User {
 }
 
 export interface LoginResponse {
-  access_token: string;
+  success: boolean;
+  data: {
+    accessToken: string;
+    user: {
+      id: string;
+      email: string;
+      name: string;
+      role: string;
+      companyId: string | null;
+      company: {
+        id: string;
+        name: string;
+        address: string | null;
+      } | null;
+    };
+  };
+  timestamp: string;
 }
 
 export interface KpiDaily {

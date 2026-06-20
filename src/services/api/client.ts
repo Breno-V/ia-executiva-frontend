@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { LoginResponse } from "@/types";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -60,11 +61,11 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const response = await axios.post<{ access_token: string }>(
+      const response = await axios.post<LoginResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-        { access_token: localStorage.getItem("access_token") }
+        { accessToken: localStorage.getItem("access_token") }
       );
-      const { access_token } = response.data;
+      const accessToken = response.data.data.accessToken;
       localStorage.setItem("access_token", access_token);
       const isHttps = window.location.protocol === "https:";
       const secure = isHttps ? "; Secure" : "";
