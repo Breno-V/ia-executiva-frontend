@@ -19,7 +19,9 @@ export default function Home() {
   const { kpiDaily, alerts, loading, error } = useHome();
   const { fetchKPIs, loading: refreshLoading } = useKpiStore();
 
-  useEffect(() => { document.title = "Dashboard | IA Executiva"; }, []);
+  useEffect(() => {
+    document.title = "Dashboard | IA Executiva";
+  }, []);
 
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
@@ -43,14 +45,52 @@ export default function Home() {
     <AuthLayout title="Dashboard Executivo">
       <div className={styles.main}>
         <div className={styles.sectionNav}>
-          <button onClick={() => scrollTo("kpis")} className={styles.sectionLink}>KPIs</button>
-          <button onClick={() => scrollTo("projecao")} className={styles.sectionLink}>Projeção</button>
-          <button onClick={() => scrollTo("prioridade")} className={styles.sectionLink}>Prioridade</button>
-          <button onClick={() => scrollTo("mapa")} className={styles.sectionLink}>Mapa</button>
-          <button onClick={() => scrollTo("ia")} className={styles.sectionLink}>Análise IA</button>
-          <button onClick={fetchKPIs} className={styles.refreshBtn} disabled={refreshLoading} aria-label="Atualizar dados da IA">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={refreshLoading ? styles.spinning : ""}>
-              <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          <button
+            onClick={() => scrollTo("kpis")}
+            className={styles.sectionLink}
+          >
+            KPIs
+          </button>
+          <button
+            onClick={() => scrollTo("projecao")}
+            className={styles.sectionLink}
+          >
+            Projeção
+          </button>
+          <button
+            onClick={() => scrollTo("prioridade")}
+            className={styles.sectionLink}
+          >
+            Prioridade
+          </button>
+          <button
+            onClick={() => scrollTo("mapa")}
+            className={styles.sectionLink}
+          >
+            Mapa
+          </button>
+          <button onClick={() => scrollTo("ia")} className={styles.sectionLink}>
+            Análise IA
+          </button>
+          <button
+            onClick={fetchKPIs}
+            className={styles.refreshBtn}
+            disabled={refreshLoading}
+            aria-label="Atualizar dados da IA"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={refreshLoading ? styles.spinning : ""}
+            >
+              <polyline points="23 4 23 10 17 10" />
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
             </svg>
             {refreshLoading ? "Atualizando..." : "Atualizar IA"}
           </button>
@@ -59,7 +99,13 @@ export default function Home() {
         {loading ? (
           <SkeletonLoader />
         ) : error ? (
-          <p style={{ textAlign: "center", marginTop: "4rem", color: "var(--color-alert-high)" }}>
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "4rem",
+              color: "var(--color-alert-high)",
+            }}
+          >
             Erro ao carregar dados: {error}
           </p>
         ) : (
@@ -68,10 +114,27 @@ export default function Home() {
               <SectionTitle title="Indicadores-Chave" />
               <div className={styles.kpiContainer}>
                 <div className={styles.kpiGrid}>
-                  <KpiCard title="ROI Estimado" value={`${roiEstimado}%`} trend={roiEstimado} fullWidth />
-                  <KpiCard title="Economia Potencial Mensal" value={formatCurrency(economiaPotencial)} trend={8.2} />
-                  <KpiCard title="Ganho de Produtividade" value={formatPercent(ganhoProdutividade)} trend={12.5} />
-                  <KpiCard title="Potencial de Automação" value={formatPercent(potencialAutomacao)} fullWidth />
+                  <KpiCard
+                    title="ROI Estimado"
+                    value={`${roiEstimado}%`}
+                    trend={roiEstimado}
+                    fullWidth
+                  />
+                  <KpiCard
+                    title="Economia Potencial Mensal"
+                    value={formatCurrency(economiaPotencial)}
+                    trend={8.2}
+                  />
+                  <KpiCard
+                    title="Ganho de Produtividade"
+                    value={formatPercent(ganhoProdutividade)}
+                    trend={12.5}
+                  />
+                  <KpiCard
+                    title="Potencial de Automação"
+                    value={formatPercent(potencialAutomacao)}
+                    fullWidth
+                  />
                 </div>
               </div>
             </section>

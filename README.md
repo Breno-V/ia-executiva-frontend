@@ -6,24 +6,25 @@ Cockpit estratégico para CEO e liderança executiva — frontend Next.js com Ty
 
 ## Stack
 
-| Camada | Tecnologia |
-|--------|-----------|
-| Framework | Next.js 16 (App Router) |
-| Linguagem | TypeScript (strict mode) |
-| Estilo | Tailwind CSS v4 + CSS Modules |
-| Estado | Zustand |
-| Gráficos | Chart.js + react-chartjs-2 |
-| Mapas | Leaflet + react-leaflet |
-| HTTP | Axios |
-| Animação | Lenis (smooth scroll) |
-| Validação | Zod |
-| Testes | Vitest + Testing Library |
+| Camada    | Tecnologia                    |
+| --------- | ----------------------------- |
+| Framework | Next.js 16 (App Router)       |
+| Linguagem | TypeScript (strict mode)      |
+| Estilo    | Tailwind CSS v4 + CSS Modules |
+| Estado    | Zustand                       |
+| Gráficos  | Chart.js + react-chartjs-2    |
+| Mapas     | Leaflet + react-leaflet       |
+| HTTP      | Axios                         |
+| Animação  | Lenis (smooth scroll)         |
+| Validação | Zod                           |
+| Testes    | Vitest + Testing Library      |
 
 ---
 
 ## ⚡ Primeiros Passos
 
 ### Pré-requisitos
+
 - Node.js >= 18
 - npm >= 9
 
@@ -110,6 +111,7 @@ src/
 ## Funcionalidades
 
 ### Dashboard Executivo (`/`)
+
 - Cards de KPIs: Economia Potencial Mensal, Ganho de Produtividade, Potencial de Automação, ROI Estimado
 - `ProjectionLineChart` — projeção de receita (Atual, 30, 90, 180, 360 dias)
 - `PriorityBarChart` — impacto financeiro por departamento (barras horizontais)
@@ -118,21 +120,25 @@ src/
 - `AiContextCard` — resumo do contexto da IA com comando rápido
 
 ### Gestão Principal (`/gestao`)
+
 - Tabela de riscos com filtros por severidade, área e busca textual
 - Botão "Detalhar" com painel expansível (problema, impacto, recomendação, data)
 - Estados vazios com fluxo explicativo
 
 ### Alertas & Inteligência (`/alertas`)
+
 - Painel de Alertas: lista de alertas categorizados por severidade
 - Chatbot Executivo: perguntas e respostas com IA (com fallback offline)
 - Monitoramento de receita, canais e KPIs
 
 ### Relatórios Executivos (`/relatorios`)
+
 - Resumo analítico gerado por IA
 - Tabela de projeções financeiras (90, 180, 360 dias)
 - Gráfico radar comparativo "Antes vs Depois"
 
 ### Visualização Geográfica (`/geografica`)
+
 - Mapa interativo com unidades de negócio
 - Painel lateral com status por unidade (Estável, Atenção, Crítico) e impacto financeiro
 
@@ -153,6 +159,7 @@ npm run test     # Vitest
 ## Dependências
 
 ### Runtime
+
 - `next`, `react`, `react-dom`
 - `axios`
 - `chart.js`, `react-chartjs-2`
@@ -162,6 +169,7 @@ npm run test     # Vitest
 - `zod`
 
 ### Dev
+
 - `typescript`, `@types/react`, `@types/react-dom`, `@types/node`, `@types/leaflet`
 - `tailwindcss`, `@tailwindcss/postcss`
 - `eslint`, `eslint-config-next`

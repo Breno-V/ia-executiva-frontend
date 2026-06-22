@@ -23,7 +23,9 @@ const defaultData: DepartmentImpact[] = [
   { department: "RH", impact: 95000 },
 ];
 
-export default function PriorityBarChart({ data = defaultData }: PriorityBarChartProps) {
+export default function PriorityBarChart({
+  data = defaultData,
+}: PriorityBarChartProps) {
   const c = useChartTheme();
 
   const options: ChartOptions<"bar"> = {
@@ -40,7 +42,8 @@ export default function PriorityBarChart({ data = defaultData }: PriorityBarChar
         titleColor: c.accent,
         bodyColor: c.text,
         callbacks: {
-          label: (context) => `Impacto: R$ ${(context.parsed.x ?? 0).toFixed(0)}`,
+          label: (context) =>
+            `Impacto: R$ ${(context.parsed.x ?? 0).toFixed(0)}`,
         },
       },
     },
@@ -49,7 +52,8 @@ export default function PriorityBarChart({ data = defaultData }: PriorityBarChar
         ticks: {
           color: c.muted,
           font: { size: 11 },
-          callback: (value: string | number) => `R$ ${Number(value).toFixed(0)}`,
+          callback: (value: string | number) =>
+            `R$ ${Number(value).toFixed(0)}`,
         },
         grid: { color: c.grid },
         border: { color: c.tooltipBorder },
@@ -81,8 +85,14 @@ export default function PriorityBarChart({ data = defaultData }: PriorityBarChar
   return (
     <div className={styles.wrapper}>
       <p className={styles.chartTitle}>Prioridade por Área</p>
-      <p className={styles.chartSub}>Impacto financeiro mensal por departamento</p>
-      <div className={styles.chartArea} role="img" aria-label="Gráfico de barras mostrando impacto financeiro por departamento, ordenado do maior para o menor">
+      <p className={styles.chartSub}>
+        Impacto financeiro mensal por departamento
+      </p>
+      <div
+        className={styles.chartArea}
+        role="img"
+        aria-label="Gráfico de barras mostrando impacto financeiro por departamento, ordenado do maior para o menor"
+      >
         <Bar data={chartData} options={options} />
       </div>
     </div>

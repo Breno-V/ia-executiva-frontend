@@ -21,7 +21,10 @@ export default function UnitStatusCard({ unit }: UnitStatusCardProps) {
     <div className={styles.card}>
       <div className={styles.header}>
         <span className={styles.unitName}>{unit.name}</span>
-        <span className={styles.badge} style={{ color: config.color, borderColor: config.color }}>
+        <span
+          className={styles.badge}
+          style={{ color: config.color, borderColor: config.color }}
+        >
           {config.label}
         </span>
       </div>

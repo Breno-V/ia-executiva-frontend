@@ -35,8 +35,10 @@ function readColors(): ChartColors {
   const bg = s.getPropertyValue("--background").trim() || "#091113";
   const accent = s.getPropertyValue("--color-accent").trim() || "#2EB7D9";
   const fg = s.getPropertyValue("--foreground").trim() || "#F0F4F5";
-  const borderRgb = s.getPropertyValue("--border-muted-rgb").trim() || "255, 255, 255";
-  const surfaceRgb = s.getPropertyValue("--bg-surface-rgb").trim() || "9, 17, 19";
+  const borderRgb =
+    s.getPropertyValue("--border-muted-rgb").trim() || "255, 255, 255";
+  const surfaceRgb =
+    s.getPropertyValue("--bg-surface-rgb").trim() || "9, 17, 19";
   const accentRgb = s.getPropertyValue("--accent-rgb").trim() || "46, 183, 217";
 
   return {

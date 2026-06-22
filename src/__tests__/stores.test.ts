@@ -16,7 +16,13 @@ import api from "@/services/api/client";
 
 beforeEach(() => {
   useAuthStore.setState({ token: null, loading: false, error: null });
-  useKpiStore.setState({ kpiDaily: null, kpisMonthly: [], alerts: [], loading: false, error: null });
+  useKpiStore.setState({
+    kpiDaily: null,
+    kpisMonthly: [],
+    alerts: [],
+    loading: false,
+    error: null,
+  });
 });
 
 describe("authStore", () => {
@@ -39,8 +45,12 @@ describe("authStore", () => {
   });
 
   it("sets error on failed login", async () => {
-    vi.mocked(authApi.login).mockRejectedValue(new Error("Credenciais inválidas"));
-    await expect(useAuthStore.getState().login("bad@test.com", "wrong")).rejects.toThrow();
+    vi.mocked(authApi.login).mockRejectedValue(
+      new Error("Credenciais inválidas"),
+    );
+    await expect(
+      useAuthStore.getState().login("bad@test.com", "wrong"),
+    ).rejects.toThrow();
     expect(useAuthStore.getState().isAuthenticated()).toBe(false);
     expect(useAuthStore.getState().error).toBe("Credenciais inválidas");
     expect(useAuthStore.getState().loading).toBe(false);

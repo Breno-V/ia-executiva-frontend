@@ -39,11 +39,18 @@ describe("Button", () => {
 describe("AlertCard", () => {
   it("renders title, description, solution and level badge", () => {
     render(
-      <AlertCard level="high" title="Risco Alto" description="Descrição do risco" solution="Solução sugerida" />
+      <AlertCard
+        level="high"
+        title="Risco Alto"
+        description="Descrição do risco"
+        solution="Solução sugerida"
+      />,
     );
     expect(screen.getByText("Risco Alto")).toBeInTheDocument();
     expect(screen.getByText("Descrição do risco")).toBeInTheDocument();
-    expect(screen.getAllByText("Solução sugerida").length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getAllByText("Solução sugerida").length,
+    ).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("Alto")).toBeInTheDocument();
   });
 
@@ -71,14 +78,20 @@ describe("KpiCard", () => {
   });
 
   it("hides trend badge when trend is null", () => {
-    const { container } = render(<KpiCard title="Estático" value="—" trend={null} />);
+    const { container } = render(
+      <KpiCard title="Estático" value="—" trend={null} />,
+    );
     expect(screen.getByText("Estático")).toBeInTheDocument();
-    const badges = container.querySelectorAll('[class*="badgeUp"], [class*="badgeDown"]');
+    const badges = container.querySelectorAll(
+      '[class*="badgeUp"], [class*="badgeDown"]',
+    );
     expect(badges.length).toBe(0);
   });
 
   it("applies fullWidth class when prop is set", () => {
-    const { container } = render(<KpiCard title="Full" value="R$ 1" fullWidth />);
+    const { container } = render(
+      <KpiCard title="Full" value="R$ 1" fullWidth />,
+    );
     expect(container.innerHTML).toContain("fullWidth");
   });
 });
@@ -86,14 +99,21 @@ describe("KpiCard", () => {
 describe("SearchBar", () => {
   it("renders search input with placeholder and aria-label", () => {
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Buscar por área, risco ou diagnóstico...");
+    const input = screen.getByPlaceholderText(
+      "Buscar por área, risco ou diagnóstico...",
+    );
     expect(input).toBeInTheDocument();
-    expect(input).toHaveAttribute("aria-label", "Buscar por área, risco ou diagnóstico");
+    expect(input).toHaveAttribute(
+      "aria-label",
+      "Buscar por área, risco ou diagnóstico",
+    );
   });
 
   it("navigates to /gestao on Enter with query", () => {
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Buscar por área, risco ou diagnóstico...");
+    const input = screen.getByPlaceholderText(
+      "Buscar por área, risco ou diagnóstico...",
+    );
     fireEvent.change(input, { target: { value: "Risco financeiro" } });
     fireEvent.keyDown(input, { key: "Enter" });
     expect(mockPush).toHaveBeenCalledWith("/gestao?search=Risco%20financeiro");
@@ -102,7 +122,9 @@ describe("SearchBar", () => {
   it("does not navigate on Enter with empty query", () => {
     mockPush.mockClear();
     render(<SearchBar />);
-    const input = screen.getByPlaceholderText("Buscar por área, risco ou diagnóstico...");
+    const input = screen.getByPlaceholderText(
+      "Buscar por área, risco ou diagnóstico...",
+    );
     fireEvent.keyDown(input, { key: "Enter" });
     expect(mockPush).not.toHaveBeenCalled();
   });

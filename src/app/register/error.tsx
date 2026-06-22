@@ -2,16 +2,20 @@
 
 export default function Error({ reset }: { error: Error; reset: () => void }) {
   return (
-    <div style={{
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "1rem",
-      background: "var(--background)",
-    }}>
-      <p style={{ color: "var(--color-alert-high)" }}>Erro ao carregar página de registro.</p>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "1rem",
+        background: "var(--background)",
+      }}
+    >
+      <p style={{ color: "var(--color-alert-high)" }}>
+        Erro ao carregar página de registro.
+      </p>
       <button
         onClick={() => reset()}
         style={{

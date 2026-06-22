@@ -20,7 +20,6 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent);
   cursor: s-resize;
-
 }
 
 @theme inline {
@@ -31,10 +30,10 @@
 :root {
   --background: #091113;
   --background-nav: #355668;
-  --foreground: #F0F4F5;
-  --color-primary: #9ACCD9;
-  --color-secondary: #236E81;
-  --color-accent: #2EB7D9;
+  --foreground: #f0f4f5;
+  --color-primary: #9accd9;
+  --color-secondary: #236e81;
+  --color-accent: #2eb7d9;
   --color-alert-high: #e46868;
   --color-alert-medium: #e6ac6e;
   --color-alert-low: #94d578;
@@ -52,11 +51,11 @@
   :root {
     --background: #091113;
     --background-nav: #355668;
-    --foreground: #F0F4F5;
-    --color-primary: #9ACCD9;
-    --color-secondary: #236E81;
-    --color-card-kpi: #1b5766 ;
-    --color-accent: #2EB7D9;
+    --foreground: #f0f4f5;
+    --color-primary: #9accd9;
+    --color-secondary: #236e81;
+    --color-card-kpi: #1b5766;
+    --color-accent: #2eb7d9;
     --color-alert-high: #e46868;
     --color-alert-medium: #e6ac6e;
     --color-alert-low: #94d578;
@@ -73,16 +72,16 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background: #EEF3F5;
+    --background: #eef3f5;
     --background-nav: #8faebd;
-    --foreground: #1A292E;
-    --color-primary: #3C8195;
+    --foreground: #1a292e;
+    --color-primary: #3c8195;
     --color-secondary: #b8d4de;
     --color-card-kpi: #9dd8ebb9;
-    --color-accent: #1B8BA4;
-    --color-alert-high: #CC5555;
-    --color-alert-medium: #CF8C3E;
-    --color-alert-low: #5A9C3A;
+    --color-accent: #1b8ba4;
+    --color-alert-high: #cc5555;
+    --color-alert-medium: #cf8c3e;
+    --color-alert-low: #5a9c3a;
 
     --bg-surface-rgb: 238, 243, 245;
     --border-muted-rgb: 26, 41, 46;
@@ -95,15 +94,15 @@
 }
 
 :root.light {
-  --background: #EEF3F5;
+  --background: #eef3f5;
   --background-nav: #8faebd;
-  --foreground: #1A292E;
-  --color-primary: #3C8195;
+  --foreground: #1a292e;
+  --color-primary: #3c8195;
   --color-secondary: #b8d4de;
-  --color-accent: #1B8BA4;
-  --color-alert-high: #CC5555;
-  --color-alert-medium: #CF8C3E;
-  --color-alert-low: #5A9C3A;
+  --color-accent: #1b8ba4;
+  --color-alert-high: #cc5555;
+  --color-alert-medium: #cf8c3e;
+  --color-alert-low: #5a9c3a;
   --color-card-kpi: #9dd8ebb9;
   --bg-surface-rgb: 238, 243, 245;
   --border-muted-rgb: 26, 41, 46;
@@ -118,7 +117,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

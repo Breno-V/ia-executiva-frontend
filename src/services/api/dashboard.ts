@@ -13,18 +13,27 @@ function abortPrevious(key: string): AbortController {
 
 export async function getKpisDaily(): Promise<KpiDaily[]> {
   const { signal } = abortPrevious("getKpisDaily");
-  const response = await api.get<{ data: KpiDaily[] }>("/dashboard/kpis/daily", { signal });
+  const response = await api.get<{ data: KpiDaily[] }>(
+    "/dashboard/kpis/daily",
+    { signal },
+  );
   return response.data.data || [];
 }
 
 export async function getKpisMonthly(): Promise<KpiMonthly[]> {
   const { signal } = abortPrevious("getKpisMonthly");
-  const response = await api.get<{ data: KpiMonthly[] }>("/dashboard/kpis/monthly", { signal });
+  const response = await api.get<{ data: KpiMonthly[] }>(
+    "/dashboard/kpis/monthly",
+    { signal },
+  );
   return response.data.data || [];
 }
 
 export async function getRevenueByRegion(): Promise<RegionRevenue[]> {
   const { signal } = abortPrevious("getRevenueByRegion");
-  const response = await api.get<{ data: RegionRevenue[] }>("/dashboard/kpis/regional", { signal });
+  const response = await api.get<{ data: RegionRevenue[] }>(
+    "/dashboard/kpis/regional",
+    { signal },
+  );
   return response.data.data || [];
 }

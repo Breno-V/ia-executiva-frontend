@@ -2,7 +2,8 @@ import api from "./client";
 import type { LoginResponse } from "@/types";
 
 function setTokenCookie(token: string) {
-  const isHttps = typeof window !== "undefined" && window.location.protocol === "https:";
+  const isHttps =
+    typeof window !== "undefined" && window.location.protocol === "https:";
   const secure = isHttps ? "; Secure" : "";
   document.cookie = `access_token=${token}; path=/; max-age=${60 * 60 * 24}; SameSite=Strict${secure}`;
 }
@@ -11,12 +12,27 @@ function removeTokenCookie() {
   document.cookie = "access_token=; path=/; max-age=0";
 }
 
-export async function register(name: string, email: string, password: string, companyName?: string, companyAddress?: string): Promise<void> {
-  await api.post("/auth/register", { name, email, password, companyName, companyAddress });
+export async function register(
+  name: string,
+  email: string,
+  password: string,
+  companyName?: string,
+  companyAddress?: string,
+): Promise<void> {
+  await api.post("/auth/register", {
+    name,
+    email,
+    password,
+    companyName,
+    companyAddress,
+  });
 }
 
 export async function login(email: string, password: string): Promise<string> {
-  const response = await api.post<LoginResponse>("/auth/login", { email, password });
+  const response = await api.post<LoginResponse>("/auth/login", {
+    email,
+    password,
+  });
   const accessToken = response.data.data.accessToken;
   localStorage.setItem("access_token", accessToken);
   setTokenCookie(accessToken);

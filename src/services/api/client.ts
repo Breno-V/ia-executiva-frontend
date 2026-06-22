@@ -63,7 +63,7 @@ api.interceptors.response.use(
     try {
       const response = await axios.post<LoginResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-        { accessToken: localStorage.getItem("access_token") }
+        { accessToken: localStorage.getItem("access_token") },
       );
       const accessToken = response.data.data.accessToken;
       localStorage.setItem("access_token", accessToken);
@@ -82,7 +82,7 @@ api.interceptors.response.use(
     } finally {
       isRefreshing = false;
     }
-  }
+  },
 );
 
 export default api;

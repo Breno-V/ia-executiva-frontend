@@ -1,7 +1,7 @@
 if (!process.env.NEXT_PUBLIC_API_URL) {
   throw new Error(
     "NEXT_PUBLIC_API_URL environment variable is required.\n" +
-    "Create a .env.local file with: NEXT_PUBLIC_API_URL=http://localhost:8000"
+      "Create a .env.local file with: NEXT_PUBLIC_API_URL=http://localhost:8000",
   );
 }
 
@@ -71,7 +71,8 @@ const nextConfig = {
           },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+            value:
+              "camera=(), microphone=(), geolocation=(), interest-cohort=()",
           },
         ],
       },

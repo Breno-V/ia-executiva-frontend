@@ -4,15 +4,28 @@ import React from "react";
 import type { Severity } from "@/types";
 import styles from "./AlertCard.module.css";
 
-const levelConfig: Record<Severity, { label: string; color: string; icon: React.ReactNode }> = {
+const levelConfig: Record<
+  Severity,
+  { label: string; color: string; icon: React.ReactNode }
+> = {
   high: {
     label: "Alto",
     color: "var(--color-alert-high)",
     icon: (
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M7 1L13 12H1L7 1Z" stroke="var(--color-alert-high)" strokeWidth="1.5" strokeLinejoin="round"/>
-        <path d="M7 5.5V8" stroke="var(--color-alert-high)" strokeWidth="1.5" strokeLinecap="round"/>
-        <circle cx="7" cy="10" r="0.75" fill="var(--color-alert-high)"/>
+        <path
+          d="M7 1L13 12H1L7 1Z"
+          stroke="var(--color-alert-high)"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7 5.5V8"
+          stroke="var(--color-alert-high)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <circle cx="7" cy="10" r="0.75" fill="var(--color-alert-high)" />
       </svg>
     ),
   },
@@ -21,9 +34,20 @@ const levelConfig: Record<Severity, { label: string; color: string; icon: React.
     color: "var(--color-alert-medium)",
     icon: (
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <circle cx="7" cy="7" r="5.5" stroke="var(--color-alert-medium)" strokeWidth="1.5"/>
-        <path d="M7 4.5V7.5" stroke="var(--color-alert-medium)" strokeWidth="1.5" strokeLinecap="round"/>
-        <circle cx="7" cy="9.5" r="0.75" fill="var(--color-alert-medium)"/>
+        <circle
+          cx="7"
+          cy="7"
+          r="5.5"
+          stroke="var(--color-alert-medium)"
+          strokeWidth="1.5"
+        />
+        <path
+          d="M7 4.5V7.5"
+          stroke="var(--color-alert-medium)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <circle cx="7" cy="9.5" r="0.75" fill="var(--color-alert-medium)" />
       </svg>
     ),
   },
@@ -32,8 +56,20 @@ const levelConfig: Record<Severity, { label: string; color: string; icon: React.
     color: "var(--color-alert-low)",
     icon: (
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <circle cx="7" cy="7" r="5.5" stroke="var(--color-alert-low)" strokeWidth="1.5"/>
-        <path d="M5 7L6.5 8.5L9 5.5" stroke="var(--color-alert-low)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <circle
+          cx="7"
+          cy="7"
+          r="5.5"
+          stroke="var(--color-alert-low)"
+          strokeWidth="1.5"
+        />
+        <path
+          d="M5 7L6.5 8.5L9 5.5"
+          stroke="var(--color-alert-low)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     ),
   },
@@ -46,7 +82,12 @@ interface AlertCardProps {
   solution: string;
 }
 
-export default function AlertCard({ level = "medium", title, description, solution }: AlertCardProps) {
+export default function AlertCard({
+  level = "medium",
+  title,
+  description,
+  solution,
+}: AlertCardProps) {
   const config = levelConfig[level];
 
   return (

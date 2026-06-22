@@ -13,12 +13,18 @@ function abortPrevious(key: string): AbortController {
 
 export async function getAlerts(): Promise<Alert[]> {
   const { signal } = abortPrevious("getAlerts");
-  const response = await api.get<{ data: Alert[] }>("/dashboard/alerts", { signal });
+  const response = await api.get<{ data: Alert[] }>("/dashboard/alerts", {
+    signal,
+  });
   return response.data.data || [];
 }
 
 export async function generateSummary(): Promise<InsightResponse> {
   const { signal } = abortPrevious("generateSummary");
-  const response = await api.post<{ data: InsightResponse }>("/insights/generate", null, { signal });
+  const response = await api.post<{ data: InsightResponse }>(
+    "/insights/generate",
+    null,
+    { signal },
+  );
   return response.data.data || {};
 }

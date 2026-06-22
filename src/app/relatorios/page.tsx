@@ -13,23 +13,51 @@ import { SkeletonRelatorios } from "@/components/ui/SkeletonLoader";
 import type { ProjectionData } from "@/types";
 import styles from "./relatorios.module.css";
 
-const metrics = ["Produtividade", "Integração", "Controle", "Velocidade", "Previsibilidade"];
+const metrics = [
+  "Produtividade",
+  "Integração",
+  "Controle",
+  "Velocidade",
+  "Previsibilidade",
+];
 
 export default function RelatoriosPage() {
   const c = useChartTheme();
-  const { summary, loading: aiLoading, error: aiError, generateSummary } = useAI();
+  const {
+    summary,
+    loading: aiLoading,
+    error: aiError,
+    generateSummary,
+  } = useAI();
   const { kpiDaily, loading, error: fetchError } = useKPIs();
 
-  useEffect(() => { document.title = "Relatórios Executivos | IA Executiva"; }, []);
+  useEffect(() => {
+    document.title = "Relatórios Executivos | IA Executiva";
+  }, []);
 
   const revenue = Number(kpiDaily?.revenue) || 1000000;
   const expenses = Number(kpiDaily?.expenses) || 700000;
   const net = Number(kpiDaily?.net) || 300000;
 
   const projections: ProjectionData[] = [
-    { period: "90 dias", revenue: revenue * 3.1, expenses: expenses * 2.9, net: net * 3.5 },
-    { period: "180 dias", revenue: revenue * 6.4, expenses: expenses * 5.8, net: net * 7.2 },
-    { period: "360 dias", revenue: revenue * 13.5, expenses: expenses * 11.5, net: net * 16.0 },
+    {
+      period: "90 dias",
+      revenue: revenue * 3.1,
+      expenses: expenses * 2.9,
+      net: net * 3.5,
+    },
+    {
+      period: "180 dias",
+      revenue: revenue * 6.4,
+      expenses: expenses * 5.8,
+      net: net * 7.2,
+    },
+    {
+      period: "360 dias",
+      revenue: revenue * 13.5,
+      expenses: expenses * 11.5,
+      net: net * 16.0,
+    },
   ];
 
   const beforeData = [45, 35, 50, 40, 55];
@@ -69,13 +97,23 @@ export default function RelatoriosPage() {
         angleLines: { color: c.grid },
         grid: { color: c.grid },
         pointLabels: { color: c.muted, font: { size: 11 } },
-        ticks: { backdropColor: "transparent", color: c.muted, font: { size: 9 } },
+        ticks: {
+          backdropColor: "transparent",
+          color: c.muted,
+          font: { size: 9 },
+        },
       },
     },
     plugins: {
       legend: {
         position: "bottom" as const,
-        labels: { color: c.text, padding: 16, boxWidth: 12, boxHeight: 12, font: { size: 12 } },
+        labels: {
+          color: c.text,
+          padding: 16,
+          boxWidth: 12,
+          boxHeight: 12,
+          font: { size: 12 },
+        },
       },
       tooltip: {
         backgroundColor: c.tooltipBg,
@@ -94,7 +132,15 @@ export default function RelatoriosPage() {
         {loading ? (
           <SkeletonRelatorios />
         ) : fetchError ? (
-          <p style={{ color: "var(--color-alert-high)", textAlign: "center", padding: "4rem 2rem" }}>{fetchError}</p>
+          <p
+            style={{
+              color: "var(--color-alert-high)",
+              textAlign: "center",
+              padding: "4rem 2rem",
+            }}
+          >
+            {fetchError}
+          </p>
         ) : (
           <>
             <section className={styles.section}>
@@ -103,11 +149,27 @@ export default function RelatoriosPage() {
                 {summary ? (
                   <p className={styles.summaryText}>{summary}</p>
                 ) : (
-                  <p className={styles.summaryPlaceholder}>Clique no botão abaixo para gerar um resumo executivo com os principais achados da IA.</p>
+                  <p className={styles.summaryPlaceholder}>
+                    Clique no botão abaixo para gerar um resumo executivo com os
+                    principais achados da IA.
+                  </p>
                 )}
-                {aiError && <p style={{ color: "var(--color-alert-high)", fontSize: "0.85rem" }}>{aiError}</p>}
+                {aiError && (
+                  <p
+                    style={{
+                      color: "var(--color-alert-high)",
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {aiError}
+                  </p>
+                )}
                 <div className={styles.summaryBtn}>
-                  <Button label={aiLoading ? "Gerando..." : "Gerar Resumo Executivo"} onClick={generateSummary} disabled={aiLoading} />
+                  <Button
+                    label={aiLoading ? "Gerando..." : "Gerar Resumo Executivo"}
+                    onClick={generateSummary}
+                    disabled={aiLoading}
+                  />
                 </div>
               </div>
             </section>
@@ -140,7 +202,10 @@ export default function RelatoriosPage() {
 
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Cenário Antes vs Depois</h2>
-              <p className={styles.radarSub}>Comparativo da evolução esperada com a implementação das recomendações da IA.</p>
+              <p className={styles.radarSub}>
+                Comparativo da evolução esperada com a implementação das
+                recomendações da IA.
+              </p>
               <div className={styles.radarWrapper}>
                 <Radar data={radarData} options={radarOptions} />
               </div>

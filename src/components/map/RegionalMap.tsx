@@ -36,7 +36,9 @@ const createCustomIcon = (L: typeof import("leaflet")) =>
   });
 
 export default function RegionalMap() {
-  const [MapComponents, setMapComponents] = useState<MapComponents | null>(null);
+  const [MapComponents, setMapComponents] = useState<MapComponents | null>(
+    null,
+  );
   const [markers, setMarkers] = useState<MarkerData[]>([]);
   const [isLight, setIsLight] = useState(false);
   const leafletRef = useRef<typeof import("leaflet") | null>(null);
@@ -57,26 +59,44 @@ export default function RegionalMap() {
       })
       .catch(() => {
         setMarkers([
-          { city: "São Paulo", lat: -23.55, lng: -46.63, region: "Sudeste", revenue: "—" },
-          { city: "Curitiba", lat: -25.42, lng: -49.27, region: "Sul", revenue: "—" },
+          {
+            city: "São Paulo",
+            lat: -23.55,
+            lng: -46.63,
+            region: "Sudeste",
+            revenue: "—",
+          },
+          {
+            city: "Curitiba",
+            lat: -25.42,
+            lng: -49.27,
+            region: "Sul",
+            revenue: "—",
+          },
         ]);
       });
 
     import("leaflet").then((L) => {
       leafletRef.current = L;
-      delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
+      delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)
+        ._getIconUrl;
     });
 
-    import("react-leaflet").then(({ MapContainer, TileLayer, Marker, Popup }) => {
-      setMapComponents({ MapContainer, TileLayer, Marker, Popup });
-    });
+    import("react-leaflet").then(
+      ({ MapContainer, TileLayer, Marker, Popup }) => {
+        setMapComponents({ MapContainer, TileLayer, Marker, Popup });
+      },
+    );
 
     function updateTheme() {
       setIsLight(document.documentElement.classList.contains("light"));
     }
     updateTheme();
     const observer = new MutationObserver(updateTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
     return () => observer.disconnect();
   }, []);
 
@@ -120,23 +140,64 @@ export default function RegionalMap() {
         .leaflet-dragging .leaflet-grab { cursor: grabbing !important; }
       `}</style>
 
-      <MapContainer center={[-15.0, -52.0]} zoom={4} className={styles.map} zoomControl={true}>
-        <TileLayer url={`https://{s}.basemaps.cartocdn.com/${isLight ? "light_all" : "dark_all"}/{z}/{x}/{y}{r}.png`} attribution='&copy; <a href="https://carto.com/">CARTO</a>' />
+      <MapContainer
+        center={[-15.0, -52.0]}
+        zoom={4}
+        className={styles.map}
+        zoomControl={true}
+      >
+        <TileLayer
+          url={`https://{s}.basemaps.cartocdn.com/${isLight ? "light_all" : "dark_all"}/{z}/{x}/{y}{r}.png`}
+          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+        />
 
         {markers.map((marker) => (
-          <Marker key={marker.city} position={[marker.lat, marker.lng]} icon={customIcon || undefined}>
+          <Marker
+            key={marker.city}
+            position={[marker.lat, marker.lng]}
+            icon={customIcon || undefined}
+          >
             <Popup>
               <div style={{ minWidth: "130px" }}>
-                <p style={{ margin: "0 0 4px", fontSize: "0.8rem", color: "var(--color-accent)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                <p
+                  style={{
+                    margin: "0 0 4px",
+                    fontSize: "0.8rem",
+                    color: "var(--color-accent)",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                  }}
+                >
                   {marker.region}
                 </p>
-                <p style={{ margin: "0 0 2px", fontSize: "1rem", fontWeight: 700, color: "var(--foreground)" }}>
+                <p
+                  style={{
+                    margin: "0 0 2px",
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    color: "var(--foreground)",
+                  }}
+                >
                   {marker.city}
                 </p>
-                <p style={{ margin: "6px 0 0", fontSize: "0.8rem", color: "rgba(var(--border-muted-rgb),0.5)" }}>
+                <p
+                  style={{
+                    margin: "6px 0 0",
+                    fontSize: "0.8rem",
+                    color: "rgba(var(--border-muted-rgb),0.5)",
+                  }}
+                >
                   Receita do mês
                 </p>
-                <p style={{ margin: "2px 0 0", fontSize: "1.1rem", fontWeight: 700, color: "var(--color-accent)" }}>
+                <p
+                  style={{
+                    margin: "2px 0 0",
+                    fontSize: "1.1rem",
+                    fontWeight: 700,
+                    color: "var(--color-accent)",
+                  }}
+                >
                   {marker.revenue}
                 </p>
               </div>

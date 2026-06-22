@@ -3,7 +3,8 @@ import { useChatStore } from "@/store/chatStore";
 import { generateSummary as apiGenerateSummary } from "@/services/api/insights";
 
 export function useAI() {
-  const { summary, loading, error, setSummary, setLoading, setError } = useChatStore();
+  const { summary, loading, error, setSummary, setLoading, setError } =
+    useChatStore();
 
   const generateSummary = useCallback(async () => {
     setLoading(true);

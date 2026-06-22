@@ -6,7 +6,8 @@ import type { KpiDaily, KpiMonthly } from "@/types";
 const POLL_INTERVAL = 30000;
 
 export function useHome() {
-  const { kpiDaily, kpisMonthly, alerts, loading, error, fetchKPIs } = useKpiStore();
+  const { kpiDaily, kpisMonthly, alerts, loading, error, fetchKPIs } =
+    useKpiStore();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -15,7 +16,11 @@ export function useHome() {
     const unsubKpi = wsClient.on("kpi:updated", (data: unknown) => {
       const d = data as { daily: KpiDaily; monthly: KpiMonthly[] } | null;
       if (d) {
-        useKpiStore.setState({ kpiDaily: d.daily, kpisMonthly: d.monthly, loading: false });
+        useKpiStore.setState({
+          kpiDaily: d.daily,
+          kpisMonthly: d.monthly,
+          loading: false,
+        });
       }
     });
 

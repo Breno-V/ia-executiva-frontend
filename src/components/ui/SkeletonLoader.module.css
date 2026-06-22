@@ -1,10 +1,19 @@
 @keyframes shimmer {
-  0% { background-position: -600px 0; }
-  100% { background-position: 600px 0; }
+  0% {
+    background-position: -600px 0;
+  }
+  100% {
+    background-position: 600px 0;
+  }
 }
 
 .skeleton {
-  background: linear-gradient(90deg, rgba(var(--hover-bg-rgb), 0.04) 25%, rgba(var(--hover-bg-rgb), 0.10) 50%, rgba(var(--hover-bg-rgb), 0.04) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--hover-bg-rgb), 0.04) 25%,
+    rgba(var(--hover-bg-rgb), 0.1) 50%,
+    rgba(var(--hover-bg-rgb), 0.04) 75%
+  );
   background-size: 600px 100%;
   animation: shimmer 1.6s infinite linear;
   border-radius: 0.5rem;
@@ -63,7 +72,12 @@
 }
 
 .skeletonTitle {
-  background: linear-gradient(90deg, rgba(var(--hover-bg-rgb), 0.04) 25%, rgba(var(--hover-bg-rgb), 0.10) 50%, rgba(var(--hover-bg-rgb), 0.04) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--hover-bg-rgb), 0.04) 25%,
+    rgba(var(--hover-bg-rgb), 0.1) 50%,
+    rgba(var(--hover-bg-rgb), 0.04) 75%
+  );
   background-size: 600px 100%;
   animation: shimmer 1.6s infinite linear;
   border-radius: 0.5rem;
@@ -72,7 +86,12 @@
 }
 
 .skeletonValue {
-  background: linear-gradient(90deg, rgba(var(--hover-bg-rgb), 0.04) 25%, rgba(var(--hover-bg-rgb), 0.10) 50%, rgba(var(--hover-bg-rgb), 0.04) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--hover-bg-rgb), 0.04) 25%,
+    rgba(var(--hover-bg-rgb), 0.1) 50%,
+    rgba(var(--hover-bg-rgb), 0.04) 75%
+  );
   background-size: 600px 100%;
   animation: shimmer 1.6s infinite linear;
   border-radius: 0.5rem;
@@ -81,7 +100,12 @@
 }
 
 .chartPie {
-  background: linear-gradient(90deg, rgba(var(--hover-bg-rgb), 0.04) 25%, rgba(var(--hover-bg-rgb), 0.10) 50%, rgba(var(--hover-bg-rgb), 0.04) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--hover-bg-rgb), 0.04) 25%,
+    rgba(var(--hover-bg-rgb), 0.1) 50%,
+    rgba(var(--hover-bg-rgb), 0.04) 75%
+  );
   background-size: 600px 100%;
   animation: shimmer 1.6s infinite linear;
   width: 160px;
@@ -91,7 +115,12 @@
 }
 
 .chartLine {
-  background: linear-gradient(90deg, rgba(var(--hover-bg-rgb), 0.04) 25%, rgba(var(--hover-bg-rgb), 0.10) 50%, rgba(var(--hover-bg-rgb), 0.04) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--hover-bg-rgb), 0.04) 25%,
+    rgba(var(--hover-bg-rgb), 0.1) 50%,
+    rgba(var(--hover-bg-rgb), 0.04) 75%
+  );
   background-size: 600px 100%;
   animation: shimmer 1.6s infinite linear;
   height: 200px;
@@ -100,7 +129,12 @@
 }
 
 .mapBox {
-  background: linear-gradient(90deg, rgba(var(--hover-bg-rgb), 0.04) 25%, rgba(var(--hover-bg-rgb), 0.10) 50%, rgba(var(--hover-bg-rgb), 0.04) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--hover-bg-rgb), 0.04) 25%,
+    rgba(var(--hover-bg-rgb), 0.1) 50%,
+    rgba(var(--hover-bg-rgb), 0.04) 75%
+  );
   background-size: 600px 100%;
   animation: shimmer 1.6s infinite linear;
   height: 380px;
@@ -109,7 +143,12 @@
 }
 
 .alertCard {
-  background: linear-gradient(90deg, rgba(var(--hover-bg-rgb), 0.04) 25%, rgba(var(--hover-bg-rgb), 0.10) 50%, rgba(var(--hover-bg-rgb), 0.04) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--hover-bg-rgb), 0.04) 25%,
+    rgba(var(--hover-bg-rgb), 0.1) 50%,
+    rgba(var(--hover-bg-rgb), 0.04) 75%
+  );
   background-size: 600px 100%;
   animation: shimmer 1.6s infinite linear;
   height: 100px;
@@ -118,7 +157,13 @@
 
 /* ── Media queries ────────────────────────────── */
 @media (max-width: 600px) {
-  .kpiGrid { grid-template-columns: 1fr; }
-  .chartContainer { grid-template-columns: 1fr; }
-  .alertGrid { grid-template-columns: 1fr; }
+  .kpiGrid {
+    grid-template-columns: 1fr;
+  }
+  .chartContainer {
+    grid-template-columns: 1fr;
+  }
+  .alertGrid {
+    grid-template-columns: 1fr;
+  }
 }

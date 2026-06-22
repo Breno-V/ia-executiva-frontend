@@ -5,79 +5,96 @@ import api from "@/services/api/client";
 import type { ChatMessage } from "@/types";
 
 export function useChat() {
-  const { messages, loading, error, addMessage, setMessages, setLoading, setError } = useChatStore();
+  const {
+    messages,
+    loading,
+    error,
+    addMessage,
+    setMessages,
+    setLoading,
+    setError,
+  } = useChatStore();
   const bufferRef = useRef("");
 
-  const sendMessage = useCallback(async (text: string) => {
-    if (!text.trim()) return;
-    const userMsg: ChatMessage = { role: "user", text: text.trim() };
-    addMessage(userMsg);
-    setLoading(true);
-    setError(null);
+  const sendMessage = useCallback(
+    async (text: string) => {
+      if (!text.trim()) return;
+      const userMsg: ChatMessage = { role: "user", text: text.trim() };
+      addMessage(userMsg);
+      setLoading(true);
+      setError(null);
 
-    if (wsClient.getStatus() === "connected") {
-      bufferRef.current = "";
-      let done = false;
+      if (wsClient.getStatus() === "connected") {
+        bufferRef.current = "";
+        let done = false;
 
-      const unsubToken = wsClient.on<string>("chat:token", (token) => {
-        bufferRef.current += token;
-        useChatStore.setState((s) => {
-          const msgs = [...s.messages];
-          const last = msgs[msgs.length - 1];
-          if (last?.role === "assistant") {
-            msgs[msgs.length - 1] = { ...last, text: bufferRef.current };
-          } else {
-            msgs.push({ role: "assistant", text: bufferRef.current });
-          }
-          return { messages: msgs };
-        });
-      });
-
-      const unsubDone = wsClient.on("chat:done", () => {
-        done = true;
-        setLoading(false);
-      });
-
-      wsClient.send("chat:message", { text: text.trim() });
-
-      const timeout = setTimeout(() => {
-        if (!done) {
-          unsubToken();
-          unsubDone();
-          setLoading(false);
-          addMessage({
-            role: "assistant",
-            text: "Desculpe, a resposta demorou mais que o esperado. Tente novamente.",
+        const unsubToken = wsClient.on<string>("chat:token", (token) => {
+          bufferRef.current += token;
+          useChatStore.setState((s) => {
+            const msgs = [...s.messages];
+            const last = msgs[msgs.length - 1];
+            if (last?.role === "assistant") {
+              msgs[msgs.length - 1] = { ...last, text: bufferRef.current };
+            } else {
+              msgs.push({ role: "assistant", text: bufferRef.current });
+            }
+            return { messages: msgs };
           });
-        }
-      }, 30000);
-
-      const waiter = setInterval(() => {
-        if (done) {
-          clearInterval(waiter);
-          clearTimeout(timeout);
-          unsubToken();
-          unsubDone();
-        }
-      }, 100);
-    } else {
-      try {
-        const { data } = await api.post<Record<string, string>>("/insights/generate", {
-          prompt: text.trim(),
         });
-        const reply: ChatMessage = {
-          role: "assistant",
-          text: data.exec_summary || data.narrative_text || "Desculpe, não consegui processar sua solicitação no momento.",
-        };
-        addMessage(reply);
-      } catch (err) {
-        console.error("Chat API error:", err);
-        const fallback = getFallbackResponse(text);
-        addMessage({ role: "assistant", text: fallback });
+
+        const unsubDone = wsClient.on("chat:done", () => {
+          done = true;
+          setLoading(false);
+        });
+
+        wsClient.send("chat:message", { text: text.trim() });
+
+        const timeout = setTimeout(() => {
+          if (!done) {
+            unsubToken();
+            unsubDone();
+            setLoading(false);
+            addMessage({
+              role: "assistant",
+              text: "Desculpe, a resposta demorou mais que o esperado. Tente novamente.",
+            });
+          }
+        }, 30000);
+
+        const waiter = setInterval(() => {
+          if (done) {
+            clearInterval(waiter);
+            clearTimeout(timeout);
+            unsubToken();
+            unsubDone();
+          }
+        }, 100);
+      } else {
+        try {
+          const { data } = await api.post<Record<string, string>>(
+            "/insights/generate",
+            {
+              prompt: text.trim(),
+            },
+          );
+          const reply: ChatMessage = {
+            role: "assistant",
+            text:
+              data.exec_summary ||
+              data.narrative_text ||
+              "Desculpe, não consegui processar sua solicitação no momento.",
+          };
+          addMessage(reply);
+        } catch (err) {
+          console.error("Chat API error:", err);
+          const fallback = getFallbackResponse(text);
+          addMessage({ role: "assistant", text: fallback });
+        }
+        setLoading(false);
       }
-      setLoading(false);
-    }
-  }, [addMessage, setLoading, setError]);
+    },
+    [addMessage, setLoading, setError],
+  );
 
   const clearMessages = useCallback(() => {
     setMessages([]);
@@ -97,7 +114,11 @@ function getFallbackResponse(msg: string): string {
   if (lower.includes("kpi") || lower.includes("indicador")) {
     return "Os KPIs principais — Receita, Despesas e Resultado Líquido — estão disponíveis no Dashboard. A IA sugere acompanhar a margem líquida mensalmente.";
   }
-  if (lower.includes("economia") || lower.includes("economizar") || lower.includes("reduzir")) {
+  if (
+    lower.includes("economia") ||
+    lower.includes("economizar") ||
+    lower.includes("reduzir")
+  ) {
     return "A IA identificou oportunidades de redução de custos nas áreas de logística e suprimentos. Uma análise mais detalhada está disponível nos relatórios.";
   }
   return "Ótima pergunta! Para responder com precisão, preciso acessar os dados mais recentes do sistema. Você pode tentar gerar um novo resumo executivo na página de Relatórios.";

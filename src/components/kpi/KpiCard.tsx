@@ -7,7 +7,12 @@ interface KpiCardProps {
   trend?: number | null;
 }
 
-export default function KpiCard({ title, value, fullWidth = false, trend = null }: KpiCardProps) {
+export default function KpiCard({
+  title,
+  value,
+  fullWidth = false,
+  trend = null,
+}: KpiCardProps) {
   const trendPositive = trend !== null && trend > 0;
   const trendNeutral = trend === null;
 
@@ -17,8 +22,11 @@ export default function KpiCard({ title, value, fullWidth = false, trend = null 
       <div className={styles.valueRow}>
         <p className={styles.value}>{value}</p>
         {!trendNeutral && (
-          <span className={`${styles.badge} ${trendPositive ? styles.badgeUp : styles.badgeDown}`}>
-            {trendPositive ? "\u25B2" : "\u25BC"} {Math.abs(trend as number).toFixed(1)}%
+          <span
+            className={`${styles.badge} ${trendPositive ? styles.badgeUp : styles.badgeDown}`}
+          >
+            {trendPositive ? "\u25B2" : "\u25BC"}{" "}
+            {Math.abs(trend as number).toFixed(1)}%
           </span>
         )}
       </div>

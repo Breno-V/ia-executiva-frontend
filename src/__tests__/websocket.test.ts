@@ -18,17 +18,23 @@ function mockWebSocket() {
     readyState: { get: () => readyState, configurable: true },
     onopen: {
       get: () => onopen,
-      set: (fn: typeof onopen) => { onopen = fn; },
+      set: (fn: typeof onopen) => {
+        onopen = fn;
+      },
       configurable: true,
     },
     onmessage: {
       get: () => onmessage,
-      set: (fn: typeof onmessage) => { onmessage = fn; },
+      set: (fn: typeof onmessage) => {
+        onmessage = fn;
+      },
       configurable: true,
     },
     onclose: {
       get: () => onclose,
-      set: (fn: typeof onclose) => { onclose = fn; },
+      set: (fn: typeof onclose) => {
+        onclose = fn;
+      },
       configurable: true,
     },
   });
@@ -42,8 +48,13 @@ function mockWebSocket() {
 
   return {
     ws,
-    triggerOpen: () => { readyState = WebSocket.OPEN; onopen?.(); },
-    triggerClose: () => { onclose?.(new CloseEvent("close")); },
+    triggerOpen: () => {
+      readyState = WebSocket.OPEN;
+      onopen?.();
+    },
+    triggerClose: () => {
+      onclose?.(new CloseEvent("close"));
+    },
     triggerMessage: (data: string) => {
       onmessage?.(new MessageEvent("message", { data }));
     },
@@ -72,7 +83,9 @@ describe("WSClient", () => {
     client.connect("ws://test", "secret");
     expect(WebSocket).toHaveBeenCalledWith("ws://test");
     triggerOpen();
-    expect(ws.send).toHaveBeenCalledWith(JSON.stringify({ type: "auth", data: { token: "secret" } }));
+    expect(ws.send).toHaveBeenCalledWith(
+      JSON.stringify({ type: "auth", data: { token: "secret" } }),
+    );
   });
 
   it("transitions to connected on open", () => {
@@ -91,7 +104,9 @@ describe("WSClient", () => {
     client.connect("ws://t", "t");
     triggerOpen();
 
-    act(() => { vi.advanceTimersByTime(30000); });
+    act(() => {
+      vi.advanceTimersByTime(30000);
+    });
     expect(ws.send).toHaveBeenCalledWith(JSON.stringify({ type: "ping" }));
   });
 
@@ -103,7 +118,9 @@ describe("WSClient", () => {
     expect(ws.send).not.toHaveBeenCalled();
 
     triggerOpen();
-    expect(ws.send).toHaveBeenCalledWith(JSON.stringify({ type: "evt", data: { x: 1 } }));
+    expect(ws.send).toHaveBeenCalledWith(
+      JSON.stringify({ type: "evt", data: { x: 1 } }),
+    );
   });
 
   it("dispatches typed events to registered handlers", () => {

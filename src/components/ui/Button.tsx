@@ -8,9 +8,18 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export default function Button({ label, onClick, disabled = false }: ButtonProps) {
+export default function Button({
+  label,
+  onClick,
+  disabled = false,
+}: ButtonProps) {
   return (
-    <button className={styles.button} type="button" onClick={onClick} disabled={disabled}>
+    <button
+      className={styles.button}
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+    >
       {label}
     </button>
   );

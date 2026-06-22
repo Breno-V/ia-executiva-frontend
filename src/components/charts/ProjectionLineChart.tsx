@@ -10,7 +10,9 @@ interface ProjectionLineChartProps {
   currentRevenue?: number;
 }
 
-export default function ProjectionLineChart({ currentRevenue = 1000000 }: ProjectionLineChartProps) {
+export default function ProjectionLineChart({
+  currentRevenue = 1000000,
+}: ProjectionLineChartProps) {
   const c = useChartTheme();
 
   const options: ChartOptions<"line"> = {
@@ -20,7 +22,12 @@ export default function ProjectionLineChart({ currentRevenue = 1000000 }: Projec
       legend: {
         display: true,
         position: "bottom",
-        labels: { color: c.text, boxWidth: 12, padding: 16, font: { size: 12 } },
+        labels: {
+          color: c.text,
+          boxWidth: 12,
+          padding: 16,
+          font: { size: 12 },
+        },
       },
       tooltip: {
         backgroundColor: c.tooltipBg,
@@ -30,7 +37,8 @@ export default function ProjectionLineChart({ currentRevenue = 1000000 }: Projec
         titleColor: c.accent,
         bodyColor: c.text,
         callbacks: {
-          label: (context) => `${context.dataset.label}: R$ ${(context.parsed.y ?? 0).toFixed(0)}`,
+          label: (context) =>
+            `${context.dataset.label}: R$ ${(context.parsed.y ?? 0).toFixed(0)}`,
         },
       },
     },
@@ -44,7 +52,8 @@ export default function ProjectionLineChart({ currentRevenue = 1000000 }: Projec
         ticks: {
           color: c.muted,
           font: { size: 12 },
-          callback: (value: string | number) => `R$ ${Number(value).toFixed(0)}`,
+          callback: (value: string | number) =>
+            `R$ ${Number(value).toFixed(0)}`,
         },
         grid: { color: c.grid },
         border: { color: c.tooltipBorder },
@@ -84,7 +93,11 @@ export default function ProjectionLineChart({ currentRevenue = 1000000 }: Projec
   return (
     <div className={styles.wrapper}>
       <p className={styles.chartTitle}>Projeção de Crescimento com IA</p>
-      <div className={styles.chartArea} role="img" aria-label="Gráfico de linha mostrando projeção de crescimento da receita nos próximos 360 dias">
+      <div
+        className={styles.chartArea}
+        role="img"
+        aria-label="Gráfico de linha mostrando projeção de crescimento da receita nos próximos 360 dias"
+      >
         <Line data={data} options={options} />
       </div>
     </div>

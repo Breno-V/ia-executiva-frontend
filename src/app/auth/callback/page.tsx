@@ -22,13 +22,15 @@ export default function AuthCallbackPage() {
   }, [router]);
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "var(--background)",
-    }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "var(--background)",
+      }}
+    >
       <p style={{ opacity: 0.5 }}>Autenticando...</p>
     </div>
   );

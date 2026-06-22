@@ -26,10 +26,12 @@ export const mockAlerts: Alert[] = [
     id: 1,
     type: "Financeiro",
     title: "Concentração de receita em canal único",
-    problem: "O canal 'Especialidades' representa 74% da receita total do mês, ultrapassando o limite de 70%.",
+    problem:
+      "O canal 'Especialidades' representa 74% da receita total do mês, ultrapassando o limite de 70%.",
     severity: "high",
     impact: 1_200_000,
-    recommendation: "Diversificar canais de venda. Acionar equipe comercial para novos mercados.",
+    recommendation:
+      "Diversificar canais de venda. Acionar equipe comercial para novos mercados.",
     date: "17/06/2026",
     status: "open",
   },
@@ -37,10 +39,12 @@ export const mockAlerts: Alert[] = [
     id: 2,
     type: "Operacional",
     title: "Queda de produtividade acima do esperado",
-    problem: "Indicador de produtividade caiu 12% no trimestre, superando a meta máxima de 10%.",
+    problem:
+      "Indicador de produtividade caiu 12% no trimestre, superando a meta máxima de 10%.",
     severity: "medium",
     impact: 580_000,
-    recommendation: "Revisar escala de turnos e identificar gargalos na linha de produção.",
+    recommendation:
+      "Revisar escala de turnos e identificar gargalos na linha de produção.",
     date: "15/06/2026",
     status: "in_progress",
   },
@@ -48,10 +52,12 @@ export const mockAlerts: Alert[] = [
     id: 3,
     type: "Financeiro",
     title: "Despesas operacionais acima do orçado",
-    problem: "Despesas do mês superaram o orçado em 8%, principalmente na rubrica de logística.",
+    problem:
+      "Despesas do mês superaram o orçado em 8%, principalmente na rubrica de logística.",
     severity: "high",
     impact: 890_000,
-    recommendation: "Auditar contratos de frete e renegociar com transportadoras.",
+    recommendation:
+      "Auditar contratos de frete e renegociar com transportadoras.",
     date: "14/06/2026",
     status: "open",
   },
@@ -70,10 +76,12 @@ export const mockAlerts: Alert[] = [
     id: 5,
     type: "TI",
     title: "Latência elevada no sistema de vendas",
-    problem: "Tempo médio de resposta do ERP comercial subiu para 4.8s (meta: <2s).",
+    problem:
+      "Tempo médio de resposta do ERP comercial subiu para 4.8s (meta: <2s).",
     severity: "medium",
     impact: 340_000,
-    recommendation: "Escalar infraestrutura e otimizar consultas críticas no banco de dados.",
+    recommendation:
+      "Escalar infraestrutura e otimizar consultas críticas no banco de dados.",
     date: "10/06/2026",
     status: "in_progress",
   },

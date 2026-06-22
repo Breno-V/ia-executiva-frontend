@@ -14,7 +14,11 @@ interface AiSectionProps {
 export default function AiSection({ alerts = [] }: AiSectionProps) {
   const { summary, loading, error, generateSummary } = useAI();
 
-  const severityMap: Record<string, Severity> = { high: "high", medium: "medium", low: "low" };
+  const severityMap: Record<string, Severity> = {
+    high: "high",
+    medium: "medium",
+    low: "low",
+  };
 
   return (
     <section id="ia" className={styles.section}>
