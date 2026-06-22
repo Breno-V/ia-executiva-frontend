@@ -58,22 +58,7 @@ export default function RegionalMap() {
         setMarkers(mapped);
       })
       .catch(() => {
-        setMarkers([
-          {
-            city: "São Paulo",
-            lat: -23.55,
-            lng: -46.63,
-            region: "Sudeste",
-            revenue: "—",
-          },
-          {
-            city: "Curitiba",
-            lat: -25.42,
-            lng: -49.27,
-            region: "Sul",
-            revenue: "—",
-          },
-        ]);
+        setMarkers([]);
       });
 
     import("leaflet").then((L) => {

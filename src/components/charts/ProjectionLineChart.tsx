@@ -11,7 +11,7 @@ interface ProjectionLineChartProps {
 }
 
 export default function ProjectionLineChart({
-  currentRevenue = 1000000,
+  currentRevenue,
 }: ProjectionLineChartProps) {
   const c = useChartTheme();
 
@@ -60,6 +60,17 @@ export default function ProjectionLineChart({
       },
     },
   };
+
+  if (!currentRevenue) {
+    return (
+      <div className={styles.wrapper}>
+        <p className={styles.chartTitle}>Projeção de Crescimento com IA</p>
+        <p style={{ opacity: 0.4, padding: "2rem 0", textAlign: "center" }}>
+          Nenhum dado disponível para projeção.
+        </p>
+      </div>
+    );
+  }
 
   const labels = ["Atual", "30 dias", "90 dias", "180 dias", "360 dias"];
   const values = [

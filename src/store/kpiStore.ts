@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import api from "@/services/api/client";
-import { getMockKpiData } from "@/services/mockData";
 import type { KpiDaily, KpiMonthly, Alert } from "@/types";
 
 let abortController: AbortController | null = null;
@@ -41,14 +40,7 @@ export const useKpiStore = create<KpiState>((set) => ({
       });
     } catch (err) {
       if ((err as Error)?.name === "CanceledError") return;
-      const mock = getMockKpiData();
-      set({
-        kpiDaily: mock.kpiDaily,
-        kpisMonthly: mock.kpisMonthly,
-        alerts: mock.alerts,
-        loading: false,
-        error: null,
-      });
+      set({ loading: false, error: null });
     }
   },
 }));

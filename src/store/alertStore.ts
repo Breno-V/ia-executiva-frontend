@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import * as insightsApi from "@/services/api/insights";
-import { mockAlerts } from "@/services/mockData";
 import { wsClient } from "@/services/websocket";
 import type { Alert } from "@/types";
 
@@ -22,7 +21,7 @@ export const useAlertStore = create<AlertState>((set) => ({
       const alertsData = await insightsApi.getAlerts();
       set({ alerts: alertsData, loading: false });
     } catch (err) {
-      set({ alerts: mockAlerts, loading: false, error: null });
+      set({ loading: false, error: "Erro ao carregar alertas" });
     }
   },
 }));

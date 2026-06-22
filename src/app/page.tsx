@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect } from "react";
 import { useHome } from "@/hooks/useHome";
-import { formatCurrency, formatPercent } from "@/libs/formatters";
+import { formatCurrency } from "@/libs/formatters";
 import { getLenis } from "@/libs/LenisContext";
 import { useKpiStore } from "@/store/kpiStore";
 import AuthLayout from "@/components/layout/AuthLayout";
@@ -34,12 +34,6 @@ export default function Home() {
       window.scrollTo({ top, behavior: "smooth" });
     }
   }, []);
-
-  const revenue = Number(kpiDaily?.revenue) || 1000000;
-  const economiaPotencial = revenue * 0.12;
-  const ganhoProdutividade = 34;
-  const potencialAutomacao = 58;
-  const roiEstimado = 312;
 
   return (
     <AuthLayout title="Dashboard Executivo">
@@ -114,34 +108,34 @@ export default function Home() {
               <SectionTitle title="Indicadores-Chave" />
               <div className={styles.kpiContainer}>
                 <div className={styles.kpiGrid}>
-                  <KpiCard
-                    title="ROI Estimado"
-                    value={`${roiEstimado}%`}
-                    trend={roiEstimado}
-                    fullWidth
-                  />
-                  <KpiCard
-                    title="Economia Potencial Mensal"
-                    value={formatCurrency(economiaPotencial)}
-                    trend={8.2}
-                  />
-                  <KpiCard
-                    title="Ganho de Produtividade"
-                    value={formatPercent(ganhoProdutividade)}
-                    trend={12.5}
-                  />
-                  <KpiCard
-                    title="Potencial de Automação"
-                    value={formatPercent(potencialAutomacao)}
-                    fullWidth
-                  />
+                  {kpiDaily ? (
+                    <>
+                      <KpiCard
+                        title="Receita do Dia"
+                        value={formatCurrency(kpiDaily.revenue)}
+                        fullWidth
+                      />
+                      <KpiCard
+                        title="Despesas do Dia"
+                        value={formatCurrency(kpiDaily.expenses)}
+                      />
+                      <KpiCard
+                        title="Resultado Líquido"
+                        value={formatCurrency(kpiDaily.net)}
+                      />
+                    </>
+                  ) : (
+                    <p style={{ opacity: 0.4, padding: "2rem", textAlign: "center" }}>
+                      Nenhum KPI disponível.
+                    </p>
+                  )}
                 </div>
               </div>
             </section>
 
             <section id="projecao" className={styles.section}>
               <SectionTitle title="Projeção de Crescimento" />
-              <ProjectionLineChart currentRevenue={revenue} />
+              <ProjectionLineChart currentRevenue={kpiDaily?.revenue} />
             </section>
 
             <section id="prioridade" className={styles.section}>

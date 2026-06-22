@@ -15,16 +15,8 @@ interface PriorityBarChartProps {
   data?: DepartmentImpact[];
 }
 
-const defaultData: DepartmentImpact[] = [
-  { department: "Logística", impact: 450000 },
-  { department: "Suprimentos", impact: 320000 },
-  { department: "Vendas", impact: 280000 },
-  { department: "Produção", impact: 210000 },
-  { department: "RH", impact: 95000 },
-];
-
 export default function PriorityBarChart({
-  data = defaultData,
+  data,
 }: PriorityBarChartProps) {
   const c = useChartTheme();
 
@@ -65,6 +57,20 @@ export default function PriorityBarChart({
       },
     },
   };
+
+  if (!data || data.length === 0) {
+    return (
+      <div className={styles.wrapper}>
+        <p className={styles.chartTitle}>Prioridade por Área</p>
+        <p className={styles.chartSub}>
+          Impacto financeiro mensal por departamento
+        </p>
+        <p style={{ opacity: 0.4, padding: "2rem 0", textAlign: "center" }}>
+          Nenhum dado disponível.
+        </p>
+      </div>
+    );
+  }
 
   const sorted = [...data].sort((a, b) => b.impact - a.impact);
 

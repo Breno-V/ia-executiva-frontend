@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import * as insightsApi from "@/services/api/insights";
-import { mockAlerts } from "@/services/mockData";
 import type { Alert } from "@/types";
 
 interface RiskState {
@@ -21,7 +20,7 @@ export const useRiskStore = create<RiskState>((set) => ({
       const alertsData = await insightsApi.getAlerts();
       set({ risks: alertsData, loading: false });
     } catch (err) {
-      set({ risks: mockAlerts, loading: false, error: null });
+      set({ loading: false, error: "Erro ao carregar riscos" });
     }
   },
   // FIXME: riskStore e alertStore (src/store/alertStore.ts) compartilham a
