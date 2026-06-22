@@ -29,14 +29,14 @@ export const useKpiStore = create<KpiState>((set) => ({
     set({ loading: true, error: null });
     try {
       const [daily, monthly, alertsData] = await Promise.all([
-        api.get<KpiDaily[]>("/dashboard/kpis/daily", { signal }),
-        api.get<KpiMonthly[]>("/dashboard/kpis/monthly", { signal }),
-        api.get<Alert[]>("/dashboard/alerts", { signal }),
+        api.get<{ data: KpiDaily[] }>("/dashboard/kpis/daily", { signal }),
+        api.get<{ data: KpiMonthly[] }>("/dashboard/kpis/monthly", { signal }),
+        api.get<{ data: Alert[] }>("/dashboard/alerts", { signal }),
       ]);
       set({
-        kpiDaily: daily.data[0] || null,
-        kpisMonthly: [...monthly.data].reverse(),
-        alerts: alertsData.data,
+        kpiDaily: daily.data.data?.[0] || null,
+        kpisMonthly: [...(monthly.data.data || [])].reverse(),
+        alerts: alertsData.data.data || [],
         loading: false,
       });
     } catch (err) {

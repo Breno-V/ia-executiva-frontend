@@ -66,12 +66,12 @@ api.interceptors.response.use(
         { accessToken: localStorage.getItem("access_token") }
       );
       const accessToken = response.data.data.accessToken;
-      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("access_token", accessToken);
       const isHttps = window.location.protocol === "https:";
       const secure = isHttps ? "; Secure" : "";
-      document.cookie = `access_token=${access_token}; path=/; max-age=${60 * 60 * 24}; SameSite=Strict${secure}`;
-      processQueue(null, access_token);
-      originalRequest.headers.Authorization = `Bearer ${access_token}`;
+      document.cookie = `access_token=${accessToken}; path=/; max-age=${60 * 60 * 24}; SameSite=Strict${secure}`;
+      processQueue(null, accessToken);
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
       return api(originalRequest);
     } catch (refreshError) {
       processQueue(refreshError, null);
