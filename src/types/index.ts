@@ -40,7 +40,7 @@ export type Severity = "high" | "medium" | "low";
 export type RiskStatus = "open" | "in_progress" | "resolved";
 
 export interface Alert {
-  id: number;
+  id: string;
   type?: string;
   title: string;
   problem: string;

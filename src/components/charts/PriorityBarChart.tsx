@@ -15,9 +15,7 @@ interface PriorityBarChartProps {
   data?: DepartmentImpact[];
 }
 
-export default function PriorityBarChart({
-  data,
-}: PriorityBarChartProps) {
+export default function PriorityBarChart({ data }: PriorityBarChartProps) {
   const c = useChartTheme();
 
   const options: ChartOptions<"bar"> = {

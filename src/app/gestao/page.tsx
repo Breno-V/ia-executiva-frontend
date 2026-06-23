@@ -22,7 +22,7 @@ export default function GestaoPage() {
   }, []);
   const [filterSeverity, setFilterSeverity] = useState("");
   const [filterArea, setFilterArea] = useState("");
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState(() => {
     if (typeof window !== "undefined") {
       const raw =
@@ -77,7 +77,7 @@ export default function GestaoPage() {
     setPage(1);
   }
 
-  function toggleExpand(id: number, buttonRef?: HTMLButtonElement | null) {
+  function toggleExpand(id: string, buttonRef?: HTMLButtonElement | null) {
     if (expandedId === id) {
       setExpandedId(null);
       buttonRef?.focus();

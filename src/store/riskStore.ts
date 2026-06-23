@@ -17,9 +17,15 @@ export const useRiskStore = create<RiskState>((set) => ({
   fetchRisks: async () => {
     set({ loading: true, error: null });
     try {
-      const alertsData = await insightsApi.getAlerts();
+      const alertsData = await insightsApi.getAlertsForRisks();
       set({ risks: alertsData, loading: false });
     } catch (err) {
+      if (
+        (err as Error)?.name === "CanceledError" ||
+        (err as Error)?.name === "AbortError"
+      ) {
+        return;
+      }
       set({ loading: false, error: "Erro ao carregar riscos" });
     }
   },

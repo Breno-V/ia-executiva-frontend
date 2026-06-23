@@ -125,7 +125,13 @@ export default function Home() {
                       />
                     </>
                   ) : (
-                    <p style={{ opacity: 0.4, padding: "2rem", textAlign: "center" }}>
+                    <p
+                      style={{
+                        opacity: 0.4,
+                        padding: "2rem",
+                        textAlign: "center",
+                      }}
+                    >
                       Nenhum KPI disponível.
                     </p>
                   )}

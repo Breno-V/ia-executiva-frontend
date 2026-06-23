@@ -21,6 +21,12 @@ export const useAlertStore = create<AlertState>((set) => ({
       const alertsData = await insightsApi.getAlerts();
       set({ alerts: alertsData, loading: false });
     } catch (err) {
+      if (
+        (err as Error)?.name === "CanceledError" ||
+        (err as Error)?.name === "AbortError"
+      ) {
+        return;
+      }
       set({ loading: false, error: "Erro ao carregar alertas" });
     }
   },
