@@ -13,9 +13,15 @@ interface DepartmentImpact {
 
 interface PriorityBarChartProps {
   data?: DepartmentImpact[];
+  title?: string;
+  subtitle?: string;
 }
 
-export default function PriorityBarChart({ data }: PriorityBarChartProps) {
+export default function PriorityBarChart({
+  data,
+  title = "Prioridade por Área",
+  subtitle = "Impacto financeiro mensal por departamento",
+}: PriorityBarChartProps) {
   const c = useChartTheme();
 
   const options: ChartOptions<"bar"> = {
@@ -59,10 +65,8 @@ export default function PriorityBarChart({ data }: PriorityBarChartProps) {
   if (!data || data.length === 0) {
     return (
       <div className={styles.wrapper}>
-        <p className={styles.chartTitle}>Prioridade por Área</p>
-        <p className={styles.chartSub}>
-          Impacto financeiro mensal por departamento
-        </p>
+        <p className={styles.chartTitle}>{title}</p>
+        <p className={styles.chartSub}>{subtitle}</p>
         <p style={{ opacity: 0.4, padding: "2rem 0", textAlign: "center" }}>
           Nenhum dado disponível.
         </p>

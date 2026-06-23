@@ -104,3 +104,32 @@ export interface RadarMetric {
   before: number;
   after: number;
 }
+
+export interface DashboardSummary {
+  totalCompanies: number;
+  totalUnits: number;
+  totalRisks: number;
+  totalKpis: number;
+  totalAlerts: number;
+  totalReports: number;
+}
+
+export interface KpiComparison {
+  id: string;
+  name: string;
+  targetValue: number | null;
+  currentValue: number | null;
+  unitId: string;
+}
+
+export interface UnitRiskInfo {
+  id: string;
+  name: string;
+  totalRisks: number;
+  averageProbability: number;
+  byImpact: {
+    ALTO: number;
+    MEDIO: number;
+    BAIXO: number;
+  };
+}
