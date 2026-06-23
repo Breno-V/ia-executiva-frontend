@@ -1,5 +1,5 @@
 import api from "./client";
-import type { Alert, InsightResponse } from "@/types";
+import type { Alert, AnalyticalReport, InsightResponse } from "@/types";
 
 const abortControllers = new Map<string, AbortController>();
 
@@ -12,12 +12,12 @@ function abortPrevious(key: string): AbortController {
 }
 
 /**
- * Busca alertas para o painel de alertas (Alertas IA).
+ * Busca alertas inteligentes gerados por IA via back-api.
  * Usa chave de abort separada para não conflitar com getAlertsForRisks.
  */
 export async function getAlerts(): Promise<Alert[]> {
   const { signal } = abortPrevious("dashboardAlerts");
-  const response = await api.get<{ data: Alert[] }>("/dashboard/alerts", {
+  const response = await api.get<{ data: Alert[] }>("/ai/alerts/intelligent", {
     signal,
   });
   return response.data.data || [];
@@ -25,11 +25,11 @@ export async function getAlerts(): Promise<Alert[]> {
 
 /**
  * Busca alertas para a tela de gestão (riskStore).
- * Usa chave de abort separada para não conflitar com getAlerts.
+ * Usa a mesma rota de alertas inteligentes com chave de abort separada.
  */
 export async function getAlertsForRisks(): Promise<Alert[]> {
   const { signal } = abortPrevious("riskAlerts");
-  const response = await api.get<{ data: Alert[] }>("/dashboard/alerts", {
+  const response = await api.get<{ data: Alert[] }>("/ai/alerts/intelligent", {
     signal,
   });
   return response.data.data || [];
@@ -43,4 +43,24 @@ export async function generateSummary(): Promise<InsightResponse> {
     { signal },
   );
   return response.data.data || {};
+}
+
+export async function getAnalyticalReport(
+  unitId?: string,
+): Promise<AnalyticalReport> {
+  const { signal } = abortPrevious("getAnalyticalReport");
+  const response = await api.get<{ data: AnalyticalReport }>(
+    "/ai/reports/analytical",
+    {
+      signal,
+      params: unitId ? { unitId } : undefined,
+    },
+  );
+  return response.data.data || {
+    summary: "",
+    keyFindings: [],
+    recommendations: [],
+    riskOverview: "",
+    opportunityHighlights: [],
+  };
 }

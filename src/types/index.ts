@@ -41,12 +41,17 @@ export type RiskStatus = "open" | "in_progress" | "resolved";
 
 export interface Alert {
   id: string;
-  type?: string;
   title: string;
-  problem: string;
+  description: string;
   severity: Severity;
-  impact: number;
-  recommendation: string;
+  category?: string;
+  suggestedAction?: string;
+  financialImpact?: number;
+  relatedUnitId?: string;
+  type?: string;
+  problem?: string;
+  impact?: number;
+  recommendation?: string;
   date?: string;
   status?: RiskStatus;
 }
@@ -59,6 +64,14 @@ export interface RegionRevenue {
 export interface InsightResponse {
   exec_summary?: string;
   narrative_text?: string;
+}
+
+export interface AnalyticalReport {
+  summary: string;
+  keyFindings: string[];
+  recommendations: string[];
+  riskOverview: string;
+  opportunityHighlights: string[];
 }
 
 export interface ChatMessage {

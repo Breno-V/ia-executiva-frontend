@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { Radar } from "react-chartjs-2";
 import "@/libs/chartRegistry";
-import { useAI } from "@/hooks/useAI";
 import { useKPIs } from "@/hooks/useKPIs";
-import { useChartTheme } from "@/hooks/useChartTheme";
+import { useAnalyticalReport } from "@/hooks/useAnalyticalReport";
 import { formatCurrency } from "@/libs/formatters";
 import AuthLayout from "@/components/layout/AuthLayout";
 import Button from "@/components/ui/Button";
@@ -13,13 +11,12 @@ import { SkeletonRelatorios } from "@/components/ui/SkeletonLoader";
 import styles from "./relatorios.module.css";
 
 export default function RelatoriosPage() {
-  const c = useChartTheme();
   const {
     summary,
-    loading: aiLoading,
-    error: aiError,
-    generateSummary,
-  } = useAI();
+    loading: reportLoading,
+    error: reportError,
+    generateReport,
+  } = useAnalyticalReport();
   const { kpiDaily, loading, error: fetchError } = useKPIs();
 
   useEffect(() => {
@@ -50,25 +47,27 @@ export default function RelatoriosPage() {
                   <p className={styles.summaryText}>{summary}</p>
                 ) : (
                   <p className={styles.summaryPlaceholder}>
-                    Clique no botão abaixo para gerar um resumo executivo com os
-                    principais achados da IA.
+                    Clique no botão abaixo para gerar o relatório analítico com
+                    os principais achados da IA.
                   </p>
                 )}
-                {aiError && (
+                {reportError && (
                   <p
                     style={{
                       color: "var(--color-alert-high)",
                       fontSize: "0.85rem",
                     }}
                   >
-                    {aiError}
+                    {reportError}
                   </p>
                 )}
                 <div className={styles.summaryBtn}>
                   <Button
-                    label={aiLoading ? "Gerando..." : "Gerar Resumo Executivo"}
-                    onClick={generateSummary}
-                    disabled={aiLoading}
+                    label={
+                      reportLoading ? "Gerando..." : "Gerar Relatório Analítico"
+                    }
+                    onClick={generateReport}
+                    disabled={reportLoading}
                   />
                 </div>
               </div>

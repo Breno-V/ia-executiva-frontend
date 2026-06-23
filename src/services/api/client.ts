@@ -25,8 +25,29 @@ function processQueue(error: unknown, token: string | null) {
   failedQueue = [];
 }
 
+/**
+ * Lê o token atual da sessão priorizando o localStorage e usando o cookie
+ * como fallback para evitar requests sem Authorization quando a sessão foi
+ * mantida apenas pelo navegador.
+ */
+export function getStoredAccessToken(): string | null {
+  if (typeof window === "undefined") return null;
+
+  const localToken = localStorage.getItem("access_token");
+  if (localToken) return localToken;
+
+  const cookieToken = document.cookie
+    .split("; ")
+    .find((part) => part.startsWith("access_token="))
+    ?.split("=")
+    .slice(1)
+    .join("=");
+
+  return cookieToken ? decodeURIComponent(cookieToken) : null;
+}
+
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
+  const token = getStoredAccessToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -63,7 +84,7 @@ api.interceptors.response.use(
     try {
       const response = await axios.post<LoginResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-        { accessToken: localStorage.getItem("access_token") },
+        { accessToken: getStoredAccessToken() },
       );
       const accessToken = response.data.data.accessToken;
       localStorage.setItem("access_token", accessToken);

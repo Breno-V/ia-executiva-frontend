@@ -186,13 +186,13 @@ export default function AlertasPage() {
               </div>
             ) : (
               <div className={styles.alertGrid}>
-                {alerts.map((alert) => (
+                {alerts.map((alert, i) => (
                   <AlertCard
-                    key={alert.id}
+                    key={alert.id || i}
                     level={severityMap[alert.severity] || "low"}
                     title={alert.title}
-                    description={alert.problem}
-                    solution={alert.recommendation}
+                    description={alert.description}
+                    solution={alert.suggestedAction || "Consulte a equipe responsável"}
                   />
                 ))}
               </div>

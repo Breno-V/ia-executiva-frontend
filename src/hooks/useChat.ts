@@ -71,17 +71,15 @@ export function useChat() {
         }, 100);
       } else {
         try {
-          const { data } = await api.post<Record<string, string>>(
-            "/insights/generate",
-            {
-              prompt: text.trim(),
-            },
-          );
+          const { data } = await api.post<{
+            data: { reply: string; conversationId: string };
+          }>("/ai/chat", {
+            message: text.trim(),
+          });
           const reply: ChatMessage = {
             role: "assistant",
             text:
-              data.exec_summary ||
-              data.narrative_text ||
+              data.data?.reply ||
               "Desculpe, não consegui processar sua solicitação no momento.",
           };
           addMessage(reply);

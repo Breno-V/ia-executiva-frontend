@@ -46,15 +46,17 @@ export default function RegionalMap() {
   useEffect(() => {
     getRevenueByRegion()
       .then((regions: RegionRevenue[]) => {
-        const mapped = regions
-          .filter((r) => REGION_COORDS[r.region])
-          .map((r) => ({
-            city: REGION_COORDS[r.region].city,
-            lat: REGION_COORDS[r.region].lat,
-            lng: REGION_COORDS[r.region].lng,
-            region: r.region,
-            revenue: formatCurrency(r.total),
-          }));
+        const revenueByRegion = new Map(
+          regions.map((item) => [item.region, item.total]),
+        );
+
+        const mapped = Object.entries(REGION_COORDS).map(([region, coords]) => ({
+          city: coords.city,
+          lat: coords.lat,
+          lng: coords.lng,
+          region,
+          revenue: formatCurrency(revenueByRegion.get(region) || 0),
+        }));
         setMarkers(mapped);
       })
       .catch(() => {
