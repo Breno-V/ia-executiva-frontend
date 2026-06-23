@@ -1,5 +1,5 @@
 import api from "./client";
-import type { KpiDaily, KpiMonthly, RegionRevenue } from "@/types";
+import type { KpiDaily, KpiMonthly, RegionRevenue, DashboardSummary } from "@/types";
 
 const abortControllers = new Map<string, AbortController>();
 
@@ -36,4 +36,13 @@ export async function getRevenueByRegion(): Promise<RegionRevenue[]> {
     { signal },
   );
   return response.data.data || [];
+}
+
+export async function getSummary(): Promise<DashboardSummary> {
+  const { signal } = abortPrevious("getSummary");
+  const response = await api.get<{ data: DashboardSummary }>(
+    "/dashboard/summary",
+    { signal },
+  );
+  return response.data.data;
 }

@@ -1,17 +1,32 @@
 import { useEffect, useRef } from "react";
 import { useKpiStore } from "@/store/kpiStore";
 import { wsClient } from "@/services/websocket";
-import type { KpiDaily, KpiMonthly } from "@/types";
+import type { KpiDaily, KpiMonthly, DashboardSummary, KpiComparison, UnitRiskInfo } from "@/types";
 
 const POLL_INTERVAL = 30000;
 
 export function useHome() {
-  const { kpiDaily, kpisMonthly, alerts, loading, error, fetchKPIs } =
-    useKpiStore();
+  const {
+    kpiDaily,
+    kpisMonthly,
+    alerts,
+    loading,
+    error,
+    fetchKPIs,
+    summary,
+    kpiComparisons,
+    unitRisks,
+    fetchSummary,
+    fetchComparisons,
+    fetchUnitRisks,
+  } = useKpiStore();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     fetchKPIs();
+    fetchSummary();
+    fetchComparisons();
+    fetchUnitRisks();
 
     const unsubKpi = wsClient.on("kpi:updated", (data: unknown) => {
       const d = data as { daily: KpiDaily; monthly: KpiMonthly[] } | null;
@@ -44,7 +59,7 @@ export function useHome() {
       unsubReconnect();
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [fetchKPIs]);
+  }, [fetchKPIs, fetchSummary, fetchComparisons, fetchUnitRisks]);
 
-  return { kpiDaily, kpisMonthly, alerts, loading, error };
+  return { kpiDaily, kpisMonthly, alerts, loading, error, summary, kpiComparisons, unitRisks };
 }

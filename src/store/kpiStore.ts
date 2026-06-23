@@ -1,6 +1,13 @@
 import { create } from "zustand";
 import api from "@/services/api/client";
-import type { KpiDaily, KpiMonthly, Alert } from "@/types";
+import type {
+  KpiDaily,
+  KpiMonthly,
+  Alert,
+  DashboardSummary,
+  KpiComparison,
+  UnitRiskInfo,
+} from "@/types";
 
 let abortController: AbortController | null = null;
 
@@ -11,6 +18,13 @@ interface KpiState {
   loading: boolean;
   error: string | null;
   fetchKPIs: () => Promise<void>;
+
+  summary: DashboardSummary | null;
+  kpiComparisons: KpiComparison[];
+  unitRisks: UnitRiskInfo[];
+  fetchSummary: () => Promise<void>;
+  fetchComparisons: () => Promise<void>;
+  fetchUnitRisks: () => Promise<void>;
 }
 
 export const useKpiStore = create<KpiState>((set) => ({
@@ -19,6 +33,10 @@ export const useKpiStore = create<KpiState>((set) => ({
   alerts: [],
   loading: false,
   error: null,
+
+  summary: null,
+  kpiComparisons: [],
+  unitRisks: [],
 
   fetchKPIs: async () => {
     abortController?.abort();
@@ -41,6 +59,35 @@ export const useKpiStore = create<KpiState>((set) => ({
     } catch (err) {
       if ((err as Error)?.name === "CanceledError") return;
       set({ loading: false, error: null });
+    }
+  },
+
+  fetchSummary: async () => {
+    try {
+      const res = await api.get<{ data: DashboardSummary }>(
+        "/dashboard/summary",
+      );
+      set({ summary: res.data.data });
+    } catch {
+      set({ summary: null });
+    }
+  },
+
+  fetchComparisons: async () => {
+    try {
+      const res = await api.get<{ data: KpiComparison[] }>("/kpis");
+      set({ kpiComparisons: res.data.data || [] });
+    } catch {
+      set({ kpiComparisons: [] });
+    }
+  },
+
+  fetchUnitRisks: async () => {
+    try {
+      const res = await api.get<{ data: UnitRiskInfo[] }>("/units/status");
+      set({ unitRisks: res.data.data || [] });
+    } catch {
+      set({ unitRisks: [] });
     }
   },
 }));
