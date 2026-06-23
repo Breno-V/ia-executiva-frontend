@@ -53,7 +53,7 @@
 
 .kpiGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
@@ -136,6 +136,9 @@
   .sectionLink {
     font-size: 0.7rem;
     padding: 0.3rem 0.75rem;
+  }
+  .kpiGrid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

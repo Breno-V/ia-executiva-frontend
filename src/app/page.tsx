@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect } from "react";
 import { useHome } from "@/hooks/useHome";
-import { formatCurrency } from "@/libs/formatters";
 import { getLenis } from "@/libs/LenisContext";
 import { useKpiStore } from "@/store/kpiStore";
 import AuthLayout from "@/components/layout/AuthLayout";
@@ -12,11 +11,13 @@ import RegionalMap from "@/components/map/RegionalMap";
 import AiSection from "@/components/ui/AiSection";
 import ProjectionLineChart from "@/components/charts/ProjectionLineChart";
 import PriorityBarChart from "@/components/charts/PriorityBarChart";
+import UnitRiskChart from "@/components/charts/UnitRiskChart";
 import SkeletonLoader from "@/components/ui/SkeletonLoader";
 import styles from "./page.module.css";
 
 export default function Home() {
-  const { kpiDaily, alerts, loading, error } = useHome();
+  const { summary, kpiComparisons, unitRisks, alerts, loading, error } =
+    useHome();
   const { fetchKPIs, loading: refreshLoading } = useKpiStore();
 
   useEffect(() => {
@@ -35,6 +36,22 @@ export default function Home() {
     }
   }, []);
 
+  const barData = kpiComparisons?.map((k) => ({
+    department: k.name,
+    impact: k.currentValue ?? 0,
+  }));
+
+  const summaryCards = summary
+    ? [
+        { title: "Empresas", value: String(summary.totalCompanies) },
+        { title: "Unidades", value: String(summary.totalUnits) },
+        { title: "Riscos", value: String(summary.totalRisks) },
+        { title: "KPIs", value: String(summary.totalKpis) },
+        { title: "Alertas", value: String(summary.totalAlerts) },
+        { title: "Relatórios", value: String(summary.totalReports) },
+      ]
+    : [];
+
   return (
     <AuthLayout title="Dashboard Executivo">
       <div className={styles.main}>
@@ -52,10 +69,16 @@ export default function Home() {
             Projeção
           </button>
           <button
-            onClick={() => scrollTo("prioridade")}
+            onClick={() => scrollTo("comparativo")}
             className={styles.sectionLink}
           >
-            Prioridade
+            Comparativo
+          </button>
+          <button
+            onClick={() => scrollTo("risco")}
+            className={styles.sectionLink}
+          >
+            Risco
           </button>
           <button
             onClick={() => scrollTo("mapa")}
@@ -108,45 +131,38 @@ export default function Home() {
               <SectionTitle title="Indicadores-Chave" />
               <div className={styles.kpiContainer}>
                 <div className={styles.kpiGrid}>
-                  {kpiDaily ? (
-                    <>
-                      <KpiCard
-                        title="Receita do Dia"
-                        value={formatCurrency(kpiDaily.revenue)}
-                        fullWidth
-                      />
-                      <KpiCard
-                        title="Despesas do Dia"
-                        value={formatCurrency(kpiDaily.expenses)}
-                      />
-                      <KpiCard
-                        title="Resultado Líquido"
-                        value={formatCurrency(kpiDaily.net)}
-                      />
-                    </>
-                  ) : (
-                    <p
-                      style={{
-                        opacity: 0.4,
-                        padding: "2rem",
-                        textAlign: "center",
-                      }}
-                    >
-                      Nenhum KPI disponível.
-                    </p>
-                  )}
+                  {summaryCards.length > 0
+                    ? summaryCards.map((card) => (
+                        <KpiCard
+                          key={card.title}
+                          title={card.title}
+                          value={card.value}
+                        />
+                      ))
+                    : Array.from({ length: 6 }).map((_, i) => (
+                        <KpiCard key={i} title="-" value="-" />
+                      ))}
                 </div>
               </div>
             </section>
 
             <section id="projecao" className={styles.section}>
               <SectionTitle title="Projeção de Crescimento" />
-              <ProjectionLineChart currentRevenue={kpiDaily?.revenue} />
+              <ProjectionLineChart />
             </section>
 
-            <section id="prioridade" className={styles.section}>
-              <SectionTitle title="Prioridade por Área" />
-              <PriorityBarChart />
+            <section id="comparativo" className={styles.section}>
+              <SectionTitle title="Comparativo de KPIs" />
+              <PriorityBarChart
+                data={barData}
+                title="Comparativo de KPIs"
+                subtitle="Valores atuais por indicador"
+              />
+            </section>
+
+            <section id="risco" className={styles.section}>
+              <SectionTitle title="Risco por Unidade" />
+              <UnitRiskChart data={unitRisks} />
             </section>
 
             <section id="mapa" className={styles.section}>
