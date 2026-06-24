@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import AuthLayout from "@/components/layout/AuthLayout";
 import AlertCard from "@/components/alerts/AlertCard";
 import { useChat } from "@/hooks/useChat";
@@ -252,8 +254,12 @@ export default function AlertasPage() {
                   key={i}
                   className={`${styles.message} ${msg.role === "user" ? styles.userMsg : styles.assistantMsg}`}
                 >
-                  <div className={styles.msgBubble}>
-                    <p>{msg.text}</p>
+                  <div className={`${styles.msgBubble} ${msg.role === "assistant" ? styles.assistantBubble : ""}`}>
+                    {msg.role === "assistant" ? (
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
+                    ) : (
+                      <p>{msg.text}</p>
+                    )}
                   </div>
                 </div>
               ))}

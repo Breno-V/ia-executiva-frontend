@@ -38,6 +38,65 @@
   justify-content: center;
 }
 
+.summary h2,
+.summary h3,
+.summary h4 {
+  color: var(--foreground);
+  font-weight: 700;
+  line-height: 1.4;
+}
+.summary h2 { font-size: 1.05rem; margin: 1.25rem 0 0.5rem; }
+.summary h3 { font-size: 0.95rem; margin: 1rem 0 0.25rem; }
+.summary strong { color: var(--color-accent); }
+.summary ul, .summary ol { padding-left: 1.25rem; margin: 0.5rem 0; }
+.summary li { margin-bottom: 0.25rem; line-height: 1.6; }
+.summary p { margin: 0.5rem 0; }
+.summary code {
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-family: var(--font-mono, monospace);
+}
+.summary pre {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+.summary table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.85rem;
+}
+.summary th, .summary td {
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.15);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.summary th {
+  background: rgba(var(--accent-rgb), 0.08);
+  font-weight: 700;
+  color: var(--foreground);
+}
+.summary td {
+  color: var(--foreground);
+  opacity: 0.85;
+}
+.summary blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  opacity: 0.75;
+  font-style: italic;
+}
+.summary a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .alertGrid {
     grid-template-columns: 1fr;

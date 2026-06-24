@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import "@/libs/chartRegistry";
 import { useKPIs } from "@/hooks/useKPIs";
 import { useAnalyticalReport } from "@/hooks/useAnalyticalReport";
@@ -44,7 +46,9 @@ export default function RelatoriosPage() {
               <h2 className={styles.sectionTitle}>Resumo Analítico</h2>
               <div className={styles.summaryBox}>
                 {summary ? (
-                  <p className={styles.summaryText}>{summary}</p>
+                  <div className={styles.summaryText}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{summary}</ReactMarkdown>
+                  </div>
                 ) : (
                   <p className={styles.summaryPlaceholder}>
                     Clique no botão abaixo para gerar o relatório analítico com

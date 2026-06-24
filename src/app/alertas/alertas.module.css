@@ -137,6 +137,71 @@
   border: 1px solid rgba(var(--surface-tint-rgb), 0.08);
 }
 
+.assistantBubble h2,
+.assistantBubble h3,
+.assistantBubble h4 {
+  font-size: inherit;
+  font-weight: 700;
+  margin: 0.75rem 0 0.25rem;
+  color: var(--foreground);
+}
+.assistantBubble strong {
+  color: var(--color-accent);
+}
+.assistantBubble ul,
+.assistantBubble ol {
+  padding-left: 1rem;
+  margin: 0.25rem 0;
+}
+.assistantBubble li {
+  margin-bottom: 0.15rem;
+  line-height: 1.5;
+}
+.assistantBubble p {
+  margin: 0.25rem 0;
+}
+.assistantBubble code {
+  background: rgba(0, 0, 0, 0.12);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-family: var(--font-mono, monospace);
+}
+.assistantBubble pre {
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.75rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+.assistantBubble table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  font-size: 0.8rem;
+}
+.assistantBubble th,
+.assistantBubble td {
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.15);
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+}
+.assistantBubble th {
+  background: rgba(var(--accent-rgb), 0.08);
+  font-weight: 700;
+}
+.assistantBubble blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 0.75rem;
+  margin: 0.5rem 0;
+  opacity: 0.75;
+  font-style: italic;
+}
+.assistantBubble a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
 .typing {
   display: flex;
   gap: 4px;

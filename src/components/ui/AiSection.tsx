@@ -1,5 +1,7 @@
 "use client";
 
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useAI } from "@/hooks/useAI";
 import Button from "@/components/ui/Button";
 import AlertCard from "@/components/alerts/AlertCard";
@@ -43,7 +45,9 @@ export default function AiSection({ alerts = [] }: AiSectionProps) {
       </div>
       {summary && (
         <div className={styles.summaryWrapper}>
-          <p className={styles.summary}>{summary}</p>
+          <div className={styles.summary}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{summary}</ReactMarkdown>
+          </div>
         </div>
       )}
       {error && (
