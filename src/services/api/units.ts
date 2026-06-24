@@ -9,6 +9,18 @@ interface BackendUnitStatus {
   byImpact: { ALTO: number; MEDIO: number; BAIXO: number };
 }
 
+export interface UnitGeoData {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+}
+
+export async function getUnitGeodata(): Promise<UnitGeoData[]> {
+  const response = await api.get<{ data: UnitGeoData[] }>("/units/geodata");
+  return response.data.data || [];
+}
+
 export async function getUnitStatuses(): Promise<UnitStatus[]> {
   const response = await api.get<{ data: BackendUnitStatus[] }>(
     "/units/status",

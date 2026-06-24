@@ -35,11 +35,13 @@ export async function getAlertsForRisks(): Promise<Alert[]> {
   return response.data.data || [];
 }
 
-export async function generateSummary(): Promise<InsightResponse> {
+export async function generateSummary(
+  prompt?: string,
+): Promise<InsightResponse> {
   const { signal } = abortPrevious("generateSummary");
   const response = await api.post<{ data: InsightResponse }>(
     "/insights/generate",
-    null,
+    { prompt },
     { signal },
   );
   return response.data.data || {};

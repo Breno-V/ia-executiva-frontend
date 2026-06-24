@@ -3,14 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./RegionalMap.module.css";
 import { getRevenueByRegion } from "@/services/api/dashboard";
+import { getUnitGeodata } from "@/services/api/units";
 import { formatCurrency } from "@/libs/formatters";
-import { REGION_COORDS } from "@/libs/constants";
 import type { RegionRevenue } from "@/types";
+import type { UnitGeoData } from "@/services/api/units";
+
 interface MarkerData {
-  city: string;
+  id: string;
+  name: string;
   lat: number;
   lng: number;
-  region: string;
   revenue: string;
 }
 
@@ -44,18 +46,20 @@ export default function RegionalMap() {
   const leafletRef = useRef<typeof import("leaflet") | null>(null);
 
   useEffect(() => {
-    getRevenueByRegion()
-      .then((regions: RegionRevenue[]) => {
-        const revenueByRegion = new Map(
-          regions.map((item) => [item.region, item.total]),
+    Promise.all([
+      getUnitGeodata(),
+      getRevenueByRegion(),
+    ])
+      .then(([units, regions]: [UnitGeoData[], RegionRevenue[]]) => {
+        const revenueByUnit = new Map(
+          regions.map((r) => [r.region, r.total]),
         );
-
-        const mapped = Object.entries(REGION_COORDS).map(([region, coords]) => ({
-          city: coords.city,
-          lat: coords.lat,
-          lng: coords.lng,
-          region,
-          revenue: formatCurrency(revenueByRegion.get(region) || 0),
+        const mapped = units.map((u) => ({
+          id: u.id,
+          name: u.name,
+          lat: u.lat,
+          lng: u.lng,
+          revenue: formatCurrency(revenueByUnit.get(u.name) || 0),
         }));
         setMarkers(mapped);
       })
@@ -140,7 +144,7 @@ export default function RegionalMap() {
 
         {markers.map((marker) => (
           <Marker
-            key={marker.city}
+            key={marker.id}
             position={[marker.lat, marker.lng]}
             icon={customIcon || undefined}
           >
@@ -156,7 +160,7 @@ export default function RegionalMap() {
                     letterSpacing: "0.06em",
                   }}
                 >
-                  {marker.region}
+                  UNIDADE
                 </p>
                 <p
                   style={{
@@ -166,7 +170,7 @@ export default function RegionalMap() {
                     color: "var(--foreground)",
                   }}
                 >
-                  {marker.city}
+                  {marker.name}
                 </p>
                 <p
                   style={{
