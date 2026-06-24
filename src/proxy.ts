@@ -7,6 +7,7 @@ const protectedRoutes = [
   "/alertas",
   "/relatorios",
   "/geografica",
+  "/importar",
 ];
 
 export function proxy(request: NextRequest) {
@@ -25,5 +26,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/gestao", "/alertas", "/relatorios", "/geografica"],
+  matcher: ["/", "/gestao", "/alertas", "/relatorios", "/geografica", "/importar"],
 };

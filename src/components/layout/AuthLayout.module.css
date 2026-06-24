@@ -1,6 +1,8 @@
 .layout {
   display: flex;
   min-height: 100vh;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 .content {
@@ -9,20 +11,54 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .topBar {
   position: sticky;
   top: 0;
   z-index: 100;
+  background: rgba(var(--bg-surface-rgb), 0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(var(--border-muted-rgb), 0.06);
+}
+
+.topBarMain {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.5rem 2rem;
-  background: rgba(var(--bg-surface-rgb), 0.8);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(var(--border-muted-rgb), 0.06);
+  padding: 1.5rem 2rem 0;
+}
+
+.topBarWithNav .topBarMain {
+  padding: 1.5rem 2rem 0.75rem;
+}
+
+.topBarSectionNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 2rem 0.75rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) transparent;
+}
+
+.topBarSectionNav::-webkit-scrollbar {
+  height: 4px;
+}
+
+.topBarSectionNav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.topBarSectionNav::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 999px;
 }
 
 .pageTitle {
@@ -69,8 +105,16 @@
     margin-left: 60px;
   }
 
-  .topBar {
-    padding: 0.75rem 1rem;
+  .topBarMain {
+    padding: 0.75rem 1rem 0;
+  }
+
+  .topBarWithNav .topBarMain {
+    padding: 0.75rem 1rem 0.5rem;
+  }
+
+  .topBarSectionNav {
+    padding: 0 1rem 0.5rem;
   }
 
   .pageTitle {
@@ -79,9 +123,18 @@
 }
 
 @media (max-width: 480px) {
-  .topBar {
-    padding: 0.6rem 0.75rem;
+  .topBarMain {
+    padding: 0.6rem 0.75rem 0;
   }
+
+  .topBarWithNav .topBarMain {
+    padding: 0.6rem 0.75rem 0.4rem;
+  }
+
+  .topBarSectionNav {
+    padding: 0 0.75rem 0.4rem;
+  }
+
   .pageTitle {
     font-size: 0.875rem;
     max-width: 140px;

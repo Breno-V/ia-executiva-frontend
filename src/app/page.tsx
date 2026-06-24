@@ -16,7 +16,7 @@ import SkeletonLoader from "@/components/ui/SkeletonLoader";
 import styles from "./page.module.css";
 
 export default function Home() {
-  const { summary, kpiComparisons, unitRisks, alerts, loading, error } =
+  const { kpiDaily, summary, kpiComparisons, unitRisks, alerts, loading, error } =
     useHome();
   const { fetchKPIs, loading: refreshLoading } = useKpiStore();
 
@@ -52,67 +52,54 @@ export default function Home() {
       ]
     : [];
 
-  return (
-    <AuthLayout title="Dashboard Executivo">
-      <div className={styles.main}>
-        <div className={styles.sectionNav}>
-          <button
-            onClick={() => scrollTo("kpis")}
-            className={styles.sectionLink}
-          >
-            KPIs
-          </button>
-          <button
-            onClick={() => scrollTo("projecao")}
-            className={styles.sectionLink}
-          >
-            Projeção
-          </button>
-          <button
-            onClick={() => scrollTo("comparativo")}
-            className={styles.sectionLink}
-          >
-            Comparativo
-          </button>
-          <button
-            onClick={() => scrollTo("risco")}
-            className={styles.sectionLink}
-          >
-            Risco
-          </button>
-          <button
-            onClick={() => scrollTo("mapa")}
-            className={styles.sectionLink}
-          >
-            Mapa
-          </button>
-          <button onClick={() => scrollTo("ia")} className={styles.sectionLink}>
-            Análise IA
-          </button>
-          <button
-            onClick={fetchKPIs}
-            className={styles.refreshBtn}
-            disabled={refreshLoading}
-            aria-label="Atualizar dados da IA"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={refreshLoading ? styles.spinning : ""}
-            >
-              <polyline points="23 4 23 10 17 10" />
-              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-            </svg>
-            {refreshLoading ? "Atualizando..." : "Atualizar IA"}
-          </button>
-        </div>
+  const sectionNav = (
+    <>
+      <button onClick={() => scrollTo("kpis")} className={styles.sectionLink}>
+        KPIs
+      </button>
+      <button onClick={() => scrollTo("projecao")} className={styles.sectionLink}>
+        Projeção
+      </button>
+      <button onClick={() => scrollTo("comparativo")} className={styles.sectionLink}>
+        Comparativo
+      </button>
+      <button onClick={() => scrollTo("risco")} className={styles.sectionLink}>
+        Risco
+      </button>
+      <button onClick={() => scrollTo("mapa")} className={styles.sectionLink}>
+        Mapa
+      </button>
+      <button onClick={() => scrollTo("ia")} className={styles.sectionLink}>
+        Análise IA
+      </button>
+      <button
+        onClick={fetchKPIs}
+        className={styles.refreshBtn}
+        disabled={refreshLoading}
+        aria-label="Atualizar dados da IA"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={refreshLoading ? styles.spinning : ""}
+        >
+          <polyline points="23 4 23 10 17 10" />
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+        </svg>
+        {refreshLoading ? "Atualizando..." : "Atualizar IA"}
+      </button>
+    </>
+  );
 
+  return (
+    <AuthLayout title="Dashboard Executivo" sectionNav={sectionNav}>
+      <div className={styles.main}>
         {loading ? (
           <SkeletonLoader />
         ) : error ? (
@@ -148,7 +135,7 @@ export default function Home() {
 
             <section id="projecao" className={styles.section}>
               <SectionTitle title="Projeção de Crescimento" />
-              <ProjectionLineChart />
+              <ProjectionLineChart currentRevenue={kpiDaily?.revenue} />
             </section>
 
             <section id="comparativo" className={styles.section}>
