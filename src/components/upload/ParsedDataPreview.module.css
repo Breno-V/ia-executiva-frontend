@@ -1,0 +1,222 @@
+.wrapper {
+  background: rgba(var(--surface-tint-rgb), 0.03);
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.08);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(var(--surface-tint-rgb), 0.06);
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.75rem;
+  color: var(--foreground);
+  opacity: 0.4;
+}
+
+.resetBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 2rem;
+  border: 1px solid var(--color-accent);
+  background: transparent;
+  color: var(--color-accent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.resetBtn:hover {
+  background: var(--color-accent);
+  color: var(--background);
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) transparent;
+}
+
+.tableWrap::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tableWrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tableWrap::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 999px;
+}
+
+.table {
+  min-width: max-content;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--foreground);
+  opacity: 0.4;
+  border-bottom: 1px solid rgba(var(--surface-tint-rgb), 0.08);
+  background: rgba(var(--surface-tint-rgb), 0.02);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.5rem 0.75rem;
+  color: var(--foreground);
+  border-bottom: 1px solid rgba(var(--surface-tint-rgb), 0.04);
+  white-space: nowrap;
+}
+
+.table tbody tr:hover {
+  background: rgba(var(--surface-tint-rgb), 0.03);
+}
+
+.truncated {
+  margin: 0.75rem 0 0;
+  font-size: 0.75rem;
+  color: var(--foreground);
+  opacity: 0.35;
+  text-align: center;
+}
+
+.empty {
+  margin: 2rem 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--foreground);
+  opacity: 0.4;
+}
+
+.sheetsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sheet {
+  border: 1px solid rgba(var(--surface-tint-rgb), 0.08);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.sheetSummary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--foreground);
+  background: rgba(var(--surface-tint-rgb), 0.02);
+  user-select: none;
+}
+
+.sheetSummary:hover {
+  background: rgba(var(--surface-tint-rgb), 0.04);
+}
+
+.sheetMeta {
+  font-size: 0.7rem;
+  font-weight: 400;
+  opacity: 0.4;
+  white-space: nowrap;
+}
+
+.sheet[open] .sheetSummary {
+  border-bottom: 1px solid rgba(var(--surface-tint-rgb), 0.06);
+}
+
+.sheet .tableWrap {
+  padding: 0.75rem;
+}
+
+.pdfWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  opacity: 0.7;
+}
+
+.pdfText {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--foreground);
+  opacity: 0.8;
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+
+.xmlPre {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--foreground);
+  opacity: 0.8;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-family: "Geist Mono", "SF Mono", "Fira Code", monospace;
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.72rem;
+  }
+}

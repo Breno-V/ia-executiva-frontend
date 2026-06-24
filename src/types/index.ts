@@ -35,25 +35,18 @@ export interface KpiMonthly {
   net: number;
 }
 
-export type Severity = "high" | "medium" | "low";
+export type Severity = "critical" | "high" | "medium" | "low";
 
-export type RiskStatus = "open" | "in_progress" | "resolved";
 
 export interface Alert {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   severity: Severity;
-  category?: string;
-  suggestedAction?: string;
+  category: string;
+  suggestedAction: string;
   financialImpact?: number;
   relatedUnitId?: string;
-  type?: string;
-  problem?: string;
-  impact?: number;
-  recommendation?: string;
-  date?: string;
-  status?: RiskStatus;
 }
 
 export interface RegionRevenue {
@@ -133,3 +126,36 @@ export interface UnitRiskInfo {
     BAIXO: number;
   };
 }
+
+export type FileUploadState = "idle" | "uploading" | "done" | "error";
+
+export interface ParsedFile {
+  id: number;
+  filename: string;
+  file_type: "csv" | "xlsx" | "pdf" | "xml";
+  status: "done" | "error" | "pending";
+  result_json: Record<string, unknown> | null;
+  error_message: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export const SUPPORTED_FORMATS = {
+  csv: { extensions: [".csv"], mime: ["text/csv", "text/plain"] },
+  xlsx: {
+    extensions: [".xlsx", ".xls"],
+    mime: [
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-excel",
+    ],
+  },
+  pdf: { extensions: [".pdf"], mime: ["application/pdf"] },
+  xml: {
+    extensions: [".xml"],
+    mime: ["application/xml", "text/xml"],
+  },
+} as const;
+
+export const MAX_UPLOAD_SIZE = 50 * 1024 * 1024;
+
+export type FileType = keyof typeof SUPPORTED_FORMATS;
