@@ -15,6 +15,7 @@ export default function AiSection({ alerts = [] }: AiSectionProps) {
   const { summary, loading, error, generateSummary } = useAI();
 
   const severityMap: Record<string, Severity> = {
+    critical: "critical",
     high: "high",
     medium: "medium",
     low: "low",
@@ -34,8 +35,8 @@ export default function AiSection({ alerts = [] }: AiSectionProps) {
               key={alert.id}
               level={severityMap[alert.severity] || "low"}
               title={alert.title}
-              description={alert.problem}
-              solution={alert.recommendation}
+              description={alert.description ?? ""}
+              solution={alert.suggestedAction ?? ""}
             />
           ))
         )}

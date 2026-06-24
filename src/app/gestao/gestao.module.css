@@ -48,10 +48,27 @@
   background: rgba(var(--surface-tint-rgb), 0.03);
   border: 1px solid rgba(var(--surface-tint-rgb), 0.08);
   border-radius: 1rem;
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) transparent;
+}
+
+.tableWrapper::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 999px;
 }
 
 .table {
+  min-width: max-content;
   width: 100%;
   border-collapse: collapse;
 }

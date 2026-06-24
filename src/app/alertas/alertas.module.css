@@ -376,8 +376,10 @@
   }
 
   .tab {
-    font-size: 0.65rem;
-    padding: 0.3rem 0.4rem;
+    font-size: 0.75rem;
+    padding: 0.5rem 0.6rem;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .chatInput {
@@ -391,8 +393,8 @@
   }
 
   .sendBtn {
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
   }
 
   .emptyTitle {

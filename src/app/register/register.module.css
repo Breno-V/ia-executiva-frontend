@@ -4,6 +4,8 @@
   align-items: center;
   justify-content: center;
   background: var(--background);
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .card {
@@ -174,5 +176,47 @@
   }
   .title {
     font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .card {
+    padding: 1.5rem 1rem;
+    gap: 1.25rem;
+  }
+  .title {
+    font-size: 1.35rem;
+  }
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  .input {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  .sectionTitle {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .card {
+    padding: 1.25rem 0.75rem;
+    gap: 1rem;
+    margin: 0 0.5rem;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+  .input {
+    padding: 0.6rem 0.65rem;
+    font-size: 0.85rem;
+  }
+  .button {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  .passwordWrapper .input {
+    padding-right: 2.25rem;
   }
 }

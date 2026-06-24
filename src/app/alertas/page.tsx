@@ -32,6 +32,7 @@ export default function AlertasPage() {
   }
 
   const severityMap: Record<string, Severity> = {
+    critical: "critical",
     high: "high",
     medium: "medium",
     low: "low",

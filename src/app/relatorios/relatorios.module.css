@@ -53,7 +53,13 @@
   background: var(--color-card-kpi);
   border: 1px solid var(--border-muted);
   border-radius: 1rem;
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tableWrapper table {
+  min-width: max-content;
+  width: 100%;
 }
 
 .table {

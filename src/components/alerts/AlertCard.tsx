@@ -8,6 +8,27 @@ const levelConfig: Record<
   Severity,
   { label: string; color: string; icon: React.ReactNode }
 > = {
+  critical: {
+    label: "Crítico",
+    color: "var(--color-alert-high)",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path
+          d="M7 1L13 12H1L7 1Z"
+          stroke="var(--color-alert-high)"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7 5.5V8"
+          stroke="var(--color-alert-high)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <circle cx="7" cy="10" r="0.75" fill="var(--color-alert-high)" />
+      </svg>
+    ),
+  },
   high: {
     label: "Alto",
     color: "var(--color-alert-high)",

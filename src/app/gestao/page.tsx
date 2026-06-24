@@ -10,6 +10,7 @@ import type { Severity } from "@/types";
 import styles from "./gestao.module.css";
 
 const severityConfig: Record<Severity, { label: string; color: string }> = {
+  critical: { label: "Crítico", color: "var(--color-alert-high)" },
   high: { label: "Alto", color: "var(--color-alert-high)" },
   medium: { label: "Médio", color: "var(--color-alert-medium)" },
   low: { label: "Baixo", color: "var(--color-alert-low)" },
@@ -22,7 +23,7 @@ export default function GestaoPage() {
   }, []);
   const [filterSeverity, setFilterSeverity] = useState("");
   const [filterArea, setFilterArea] = useState("");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [expandedRisk, setExpandedRisk] = useState<typeof risks[number] | null>(null);
   const [searchQuery, setSearchQuery] = useState(() => {
     if (typeof window !== "undefined") {
       const raw =
@@ -38,32 +39,32 @@ export default function GestaoPage() {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
-        setExpandedId(null);
+        setExpandedRisk(null);
         lastButtonRef.current?.focus();
         lastButtonRef.current = null;
       }
     }
-    if (expandedId !== null) {
+    if (expandedRisk !== null) {
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
     }
-  }, [expandedId]);
+  }, [expandedRisk]);
 
   useEffect(() => {
-    if (expandedId !== null) {
+    if (expandedRisk !== null) {
       detailPanelRef.current?.focus();
     }
-  }, [expandedId]);
+  }, [expandedRisk]);
 
-  const areas = [...new Set(risks.map((risk) => risk.type || "Geral"))];
+  const areas = [...new Set(risks.map((risk) => risk.category || "Geral"))];
 
   const filtered = risks.filter((risk) => {
     const matchSeverity = !filterSeverity || risk.severity === filterSeverity;
-    const matchArea = !filterArea || (risk.type || "Geral") === filterArea;
+    const matchArea = !filterArea || (risk.category || "Geral") === filterArea;
     const matchSearch =
       !searchQuery ||
       (risk.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (risk.problem || "").toLowerCase().includes(searchQuery.toLowerCase());
+      (risk.description || "").toLowerCase().includes(searchQuery.toLowerCase());
     return matchSeverity && matchArea && matchSearch;
   });
 
@@ -77,13 +78,13 @@ export default function GestaoPage() {
     setPage(1);
   }
 
-  function toggleExpand(id: string, buttonRef?: HTMLButtonElement | null) {
-    if (expandedId === id) {
-      setExpandedId(null);
+  function toggleExpand(risk: typeof risks[number], buttonRef?: HTMLButtonElement | null) {
+    if (expandedRisk === risk) {
+      setExpandedRisk(null);
       buttonRef?.focus();
     } else {
       lastButtonRef.current = buttonRef || null;
-      setExpandedId(id);
+      setExpandedRisk(risk);
     }
   }
 
@@ -290,14 +291,14 @@ export default function GestaoPage() {
                 </tr>
               </thead>
               <tbody>
-                {paginated.map((risk) => {
+                {paginated.map((risk, index) => {
                   const config =
                     severityConfig[risk.severity] || severityConfig.low;
-                  const isExpanded = expandedId === risk.id;
+                  const isExpanded = expandedRisk === risk;
                   return (
-                    <tr key={risk.id} className={styles.row}>
-                      <td className={styles.id}>#{risk.id}</td>
-                      <td className={styles.area}>{risk.type || "Geral"}</td>
+                    <tr key={risk.id ?? index} className={styles.row}>
+                      <td className={styles.id}>#{risk.id ?? index + 1}</td>
+                      <td className={styles.area}>{risk.category || "Geral"}</td>
                       <td className={styles.desc}>{risk.title}</td>
                       <td>
                         <span
@@ -311,25 +312,25 @@ export default function GestaoPage() {
                         </span>
                       </td>
                       <td className={styles.impact}>
-                        {risk.impact
-                          ? formatCurrency(Number(risk.impact))
+                        {risk.financialImpact
+                          ? formatCurrency(risk.financialImpact)
                           : "—"}
                       </td>
                       <td className={styles.status}>
                         <span
-                          className={`${styles.statusBadge} ${styles[risk.status || "open"] as string}`}
+                          className={`${styles.statusBadge} ${styles.open as string}`}
                         >
-                          {risk.status || "open"}
+                          aberto
                         </span>
                       </td>
                       <td>
                         <button
                           className={styles.detailBtn}
                           onClick={(e) =>
-                            toggleExpand(risk.id, e.currentTarget)
+                            toggleExpand(risk, e.currentTarget)
                           }
                           aria-expanded={isExpanded}
-                          aria-controls={`risk-detail-${risk.id}`}
+                          aria-controls={`risk-detail-${risk.id ?? index}`}
                         >
                           {isExpanded ? "Fechar" : "Detalhar"}
                         </button>
@@ -340,15 +341,13 @@ export default function GestaoPage() {
               </tbody>
             </table>
 
-            {expandedId &&
-              (() => {
-                const risk = paginated.find((r) => r.id === expandedId);
-                if (!risk) return null;
+            {expandedRisk && (() => {
+                const risk = expandedRisk;
                 const config =
                   severityConfig[risk.severity] || severityConfig.low;
                 return (
                   <div
-                    id={`risk-detail-${risk.id}`}
+                    id={`risk-detail-${risk.id ?? "detail"}`}
                     className={styles.detailPanel}
                     ref={detailPanelRef}
                     tabIndex={-1}
@@ -358,7 +357,7 @@ export default function GestaoPage() {
                       <div>
                         <span className={styles.detailLabel}>Problema</span>
                         <p className={styles.detailText}>
-                          {risk.problem || "—"}
+                          {risk.description || "—"}
                         </p>
                       </div>
                       <div>
@@ -366,20 +365,20 @@ export default function GestaoPage() {
                           Impacto Financeiro
                         </span>
                         <p className={styles.detailText}>
-                          {risk.impact
-                            ? formatCurrency(Number(risk.impact)) + "/mês"
+                          {risk.financialImpact
+                            ? formatCurrency(risk.financialImpact) + "/mês"
                             : "—"}
                         </p>
                       </div>
                       <div>
                         <span className={styles.detailLabel}>Recomendação</span>
                         <p className={styles.detailText}>
-                          {risk.recommendation || "—"}
+                          {risk.suggestedAction || "—"}
                         </p>
                       </div>
                       <div>
                         <span className={styles.detailLabel}>Data</span>
-                        <p className={styles.detailText}>{risk.date || "—"}</p>
+                        <p className={styles.detailText}>—</p>
                       </div>
                     </div>
                   </div>
